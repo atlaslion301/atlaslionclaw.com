@@ -21,6 +21,7 @@
     .callout{background:#eef4ff; border-left:5px solid #3b82f6; padding:10px 12px; border-radius:8px; margin:10px 0}
     .shot{border:2px dashed #93c5fd;background:#f8fbff;border-radius:10px;padding:12px;margin:10px 0;color:#334155}
     .shot b{color:#0f172a}
+    .shot img{width:100%;margin-top:8px;border:1px solid #c8d6f4;border-radius:8px}
     .issue{border:1px solid #dbe7ff; border-radius:10px; padding:10px 12px; margin:10px 0; background:#fcfdff}
     .mono{font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background:#0f172a; color:#f8fafc; padding:10px; border-radius:8px; font-size:12px; white-space:pre-wrap}
     .footer{margin-top:26px; font-size:11px; color:#5b6b89}
@@ -48,9 +49,15 @@
   </ol>
   <p><strong>Success check:</strong> OpenClaw replies consistently in your test channel.</p>
 
-  <div class="shot"><b>Screenshot 1:</b> Initial OpenClaw install + health check.</div>
-  <div class="shot"><b>Screenshot 2:</b> Policy/allowlist setup with your user ID.</div>
-  <div class="shot"><b>Screenshot 3:</b> Successful message loop in production test channel.</div>
+  <div class="shot"><b>Visual 1:</b> OpenClaw setup flow.
+    <img src="../assets/owned/owned-setup-flow.png" alt="Owned setup flow" />
+  </div>
+  <div class="shot"><b>Visual 2:</b> Discord troubleshooting flow.
+    <img src="../assets/owned/owned-discord-flow.png" alt="Owned Discord troubleshooting flow" />
+  </div>
+  <div class="shot"><b>Visual 3:</b> Telegram troubleshooting flow.
+    <img src="../assets/owned/owned-telegram-flow.png" alt="Owned Telegram troubleshooting flow" />
+  </div>
 
   <h2>2) Incident Workflow (P0–P3)</h2>
   <div class="callout">Detect → Contain → Diagnose → Fix → Verify → Prevent recurrence</div>

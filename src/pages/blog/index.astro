@@ -1,13 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
 ---
 <BaseLayout title="AtlasLionClaw Blog | OpenClaw + AI News" description="OpenClaw setup guides, troubleshooting posts, and AI news for builders.">
-  <header class="site-header">
-    <div class="container nav">
-      <a class="brand" href="/">🦁 AtlasLionClaw</a>
-      <nav><a href="/">Home</a></nav>
-    </div>
-  </header>
+  <NavBar links={[{ href: '/', label: 'Home' }]} />
 
   <main class="container section">
     <h1>OpenClaw + AI Blog</h1>

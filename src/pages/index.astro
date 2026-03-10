@@ -1,17 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
 ---
 <BaseLayout title="OpenClaw Setup & Troubleshooting Guide (Free + Paid Playbook)" description="Fix OpenClaw setup and troubleshooting issues faster. Download the free Quick Fix PDF and join the advanced Operator Playbook waitlist.">
-  <header class="site-header">
-    <div class="container nav">
-      <a class="brand" href="/">🦁 AtlasLionClaw</a>
-      <nav>
-        <a href="/blog/">Blog</a>
-        <a href="#free">Free PDF</a>
-        <a href="#paid">Paid Playbook</a>
-      </nav>
-    </div>
-  </header>
+  <NavBar links={[{ href: '/blog/', label: 'Blog' }, { href: '#free', label: 'Free PDF' }, { href: '#paid', label: 'Paid Playbook' }]} />
 
   <section class="hero">
     <div class="container hero-grid">

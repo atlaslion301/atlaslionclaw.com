@@ -1,16 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
 ---
 <BaseLayout title="OpenClaw Setup Checklist (2026)" description="A practical setup checklist for OpenClaw to avoid common errors.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+
   <main class="container section">
-    <p><a href="/blog/">← Back to blog</a></p>
-    <h1>OpenClaw Setup Checklist (2026)</h1>
-    <ol>
-      <li>Install OpenClaw and confirm CLI health.</li>
-      <li>Configure channel token(s) securely.</li>
-      <li>Set DM/group policy explicitly.</li>
-      <li>Start gateway and verify status.</li>
-      <li>Complete pairing and test end-to-end reply.</li>
-    </ol>
+    <article class="content-shell">
+      <p><a href="/blog/">← Back to blog</a></p>
+      <h1>OpenClaw Setup Checklist (2026)</h1>
+      <ol>
+        <li>Install OpenClaw and confirm CLI health.</li>
+        <li>Configure channel token(s) securely.</li>
+        <li>Set DM/group policy explicitly.</li>
+        <li>Start gateway and verify status.</li>
+        <li>Complete pairing and test end-to-end reply.</li>
+      </ol>
+    </article>
   </main>
 </BaseLayout>

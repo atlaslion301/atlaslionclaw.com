@@ -1,0 +1,13 @@
+---
+const { links = [] } = Astro.props;
+---
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="/">🦁 AtlasLionClaw</a>
+    <nav>
+      {links.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>

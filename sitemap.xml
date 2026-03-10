@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://YOUR_DOMAIN_HERE/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://YOUR_DOMAIN_HERE/"/>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://YOUR_DOMAIN_HERE/us/"/>
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://YOUR_DOMAIN_HERE/uk/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://YOUR_DOMAIN_HERE/fr/"/>
+    <xhtml:link rel="alternate" hreflang="fr-MA" href="https://YOUR_DOMAIN_HERE/ma-fr/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://YOUR_DOMAIN_HERE/ar/"/>
+    <xhtml:link rel="alternate" hreflang="ar-MA" href="https://YOUR_DOMAIN_HERE/ma-ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://YOUR_DOMAIN_HERE/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

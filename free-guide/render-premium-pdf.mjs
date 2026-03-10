@@ -4,7 +4,7 @@ import path from 'path';
 
 const root = process.cwd();
 const htmlPath = path.join(root, 'free-guide', 'premium-template.html');
-const outPath = path.join(root, 'public', 'free', 'openclaw-quick-fix-guide.pdf');
+const outPath = path.join(root, 'protected-assets', 'free', 'openclaw-quick-fix-guide.pdf');
 
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage();

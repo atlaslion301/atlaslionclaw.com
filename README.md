@@ -20,16 +20,21 @@ npm run preview
 - SQL schema/policy file: `supabase.sql`
 
 ## Free PDF email flow
-- Endpoint: `api/free-pdf.js` (Vercel Serverless Function)
+- Endpoints:
+  - `api/free-pdf.js` (creates lead + sends email)
+  - `api/free-download.js` (one-time secure token download)
 - Required env vars (set in Vercel): see `.env.example`
   - `SUPABASE_URL`
   - `SUPABASE_SERVICE_ROLE_KEY`
   - `RESEND_API_KEY`
   - `FREE_PDF_FROM_EMAIL`
-  - `FREE_PDF_DELIVERY_MODE` (`attachment` or `url`)
-  - `FREE_PDF_URL` (if mode = `url`)
-  - `FREE_PDF_ATTACHMENT_PATH` + `FREE_PDF_ATTACHMENT_FILENAME` (if mode = `attachment`)
-- Put your PDF file in the repo path referenced by `FREE_PDF_ATTACHMENT_PATH` (default: `public/free/openclaw-quick-fix-guide.pdf`).
+  - `PUBLIC_BASE_URL`
+  - `FREE_PDF_DELIVERY_MODE` (`url` or `attachment`)
+- Run SQL files in Supabase SQL Editor:
+  - `supabase.sql`
+  - `supabase-token-table.sql`
+- Free PDF is now stored outside public web root by default:
+  - `protected-assets/free/openclaw-quick-fix-guide.pdf`
 
 ## Notes
 - Anti-spam included: honeypot + client-side rate limiting.

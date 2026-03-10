@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import crypto from 'node:crypto';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -23,7 +24,8 @@ export default async function handler(req, res) {
       FREE_PDF_URL,
       FREE_PDF_DELIVERY_MODE,
       FREE_PDF_ATTACHMENT_PATH,
-      FREE_PDF_ATTACHMENT_FILENAME
+      FREE_PDF_ATTACHMENT_FILENAME,
+      PUBLIC_BASE_URL
     } = process.env;
 
     if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
@@ -82,6 +84,20 @@ export default async function handler(req, res) {
       subject: 'Your OpenClaw Quick Fix Guide (Free PDF)'
     };
 
+    // Create one-time secure token (default URL mode)
+    const token = crypto.randomBytes(24).toString('hex');
+    const expires = new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(); // 24h
+    await fetch(`${SUPABASE_URL}/rest/v1/pdf_access_tokens`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: SUPABASE_SERVICE_ROLE_KEY,
+        Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify([{ email: cleanEmail, token, expires_at: expires }])
+    });
+
     if (deliveryMode === 'attachment') {
       const attachmentPath = FREE_PDF_ATTACHMENT_PATH || 'public/free/openclaw-quick-fix-guide.pdf';
       const absolutePath = resolve(process.cwd(), attachmentPath);
@@ -95,8 +111,9 @@ export default async function handler(req, res) {
         }
       ];
     } else {
-      const pdfUrl = FREE_PDF_URL || 'https://atlaslionclaw.com/free/openclaw-quick-fix-guide.pdf';
-      payload.html = `<p>Hey there,</p><p>Thanks for requesting the free OpenClaw Quick Fix Guide.</p><p><a href="${pdfUrl}">Download your PDF here</a></p><p>- AtlasLionClaw</p>`;
+      const base = (PUBLIC_BASE_URL || 'https://atlaslionclaw.com').replace(/\/$/, '');
+      const secureUrl = `${base}/api/free-download?t=${token}`;
+      payload.html = `<p>Hey there,</p><p>Thanks for requesting the free OpenClaw Quick Fix Guide.</p><p><a href="${secureUrl}">Secure download link (expires in 24h, one-time use)</a></p><p>- AtlasLionClaw</p>`;
     }
 
     const sendResp = await fetch('https://api.resend.com/emails', {

@@ -13,7 +13,10 @@ await page.pdf({
   path: outPath,
   format: 'A4',
   printBackground: true,
-  margin: { top: '12mm', right: '10mm', bottom: '12mm', left: '10mm' }
+  displayHeaderFooter: true,
+  headerTemplate: `<div style="font-size:9px;width:100%;padding:0 10mm;color:#64748b;">AtlasLionClaw · OpenClaw Quick Fix Guide</div>`,
+  footerTemplate: `<div style="font-size:9px;width:100%;padding:0 10mm;color:#64748b;display:flex;justify-content:space-between;"><span>atlaslionclaw.com</span><span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span></div>`,
+  margin: { top: '16mm', right: '10mm', bottom: '16mm', left: '10mm' }
 });
 await browser.close();
 console.log('Generated', outPath);

@@ -85,8 +85,9 @@ export default async function handler(req, res) {
     };
 
     // Create one-time secure token (default URL mode)
-    const token = crypto.randomBytes(24).toString('hex');
-    const expires = new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(); // 24h
+    const ttlMinutes = Number(process.env.FREE_PDF_TOKEN_TTL_MINUTES || 15);
+    const token = crypto.randomBytes(32).toString('base64url');
+    const expires = new Date(Date.now() + 1000 * 60 * ttlMinutes).toISOString();
     await fetch(`${SUPABASE_URL}/rest/v1/pdf_access_tokens`, {
       method: 'POST',
       headers: {
@@ -113,7 +114,7 @@ export default async function handler(req, res) {
     } else {
       const base = (PUBLIC_BASE_URL || 'https://atlaslionclaw.com').replace(/\/$/, '');
       const secureUrl = `${base}/api/free-download?t=${token}`;
-      payload.html = `<p>Hey there,</p><p>Thanks for requesting the free OpenClaw Quick Fix Guide.</p><p><a href="${secureUrl}">Secure download link (expires in 24h, one-time use)</a></p><p>- AtlasLionClaw</p>`;
+      payload.html = `<p>Hey there,</p><p>Thanks for requesting the free OpenClaw Quick Fix Guide.</p><p><a href="${secureUrl}">Secure download link (short-lived + one-time use)</a></p><p>This link expires quickly for security.</p><p>- AtlasLionClaw</p>`;
     }
 
     const sendResp = await fetch('https://api.resend.com/emails', {

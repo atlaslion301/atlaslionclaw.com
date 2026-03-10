@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>OpenClaw Operator Playbook</title>
+  <style>
+    @page { margin: 18mm 14mm; }
+    body{font-family: Inter, Arial, sans-serif; color:#10203a; margin:0;}
+    .cover{height:95vh; display:flex; flex-direction:column; justify-content:center; background:linear-gradient(135deg,#081122,#1d4ed8); color:white; padding:48px; border-radius:14px;}
+    .logo{display:inline-flex;align-items:center;gap:8px;font-weight:800;letter-spacing:.04em}
+    .logo-mark{width:26px;height:26px;border-radius:50%;display:inline-grid;place-items:center;background:#facc15;color:#0b1430;font-size:14px}
+    .badge{display:inline-block; background:#facc15; color:#0b1430; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px; letter-spacing:.08em}
+    h2{font-size:24px; margin:28px 0 10px; color:#132a52; border-bottom:2px solid #dbe7ff; padding-bottom:6px}
+    h3{font-size:18px; margin:18px 0 8px; color:#1f3f7a}
+    p,li{font-size:13px; line-height:1.55}
+    ul,ol{margin-top:8px}
+    .callout{background:#eef4ff; border-left:5px solid #3b82f6; padding:10px 12px; border-radius:8px; margin:10px 0}
+    .issue{border:1px solid #dbe7ff; border-radius:10px; padding:10px 12px; margin:10px 0; background:#fcfdff}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background:#0f172a; color:#f8fafc; padding:10px; border-radius:8px; font-size:12px; white-space:pre-wrap}
+    .footer{margin-top:26px; font-size:11px; color:#5b6b89}
+    .cta{margin-top:22px;padding:16px;border:2px dashed #93c5fd;border-radius:10px;background:#f8fbff}
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <div class="logo"><span class="logo-mark">🦁</span><span>ATLASLIONCLAW</span></div>
+    <br/>
+    <span class="badge">PAID PLAYBOOK</span>
+    <h1 style="font-size:42px;margin:10px 0 8px;">OpenClaw Operator Playbook</h1>
+    <p style="font-size:18px;opacity:.95">Advanced setup, troubleshooting, hardening, and operations for real-world deployments.</p>
+    <p><strong>Version 1.0</strong> • Last updated: 2026-03-09</p>
+  </section>
+
+  <h2>1) Incident Workflow (P0–P3)</h2>
+  <div class="callout">Detect → Contain → Diagnose → Fix → Verify → Prevent recurrence</div>
+
+  <h2>2) Full Setup & Provisioning</h2>
+  <ul>
+    <li>Clean install baseline for stable deployment</li>
+    <li>Secure policy defaults and pair testing</li>
+    <li>Role model for owners/admins/operators</li>
+  </ul>
+
+  <h2>3) Advanced Troubleshooting Matrix</h2>
+  <div class="issue"><h3>Discord Routing Fails</h3><p>Pairing, allowlists, mention gating, gateway restart checks.</p></div>
+  <div class="issue"><h3>Telegram Group Silence</h3><p>Privacy mode, permissions, and group policy validation path.</p></div>
+  <div class="issue"><h3>Gateway Startup Failure</h3><p>Schema validation, rollback strategy, and doctor-based recovery.</p></div>
+
+  <h2>4) Security Hardening</h2>
+  <ul>
+    <li>Allowlist-first policy model</li>
+    <li>Token rotation and leak response</li>
+    <li>Control-surface exposure minimization</li>
+  </ul>
+
+  <h2>5) Cost & Performance</h2>
+  <ul>
+    <li>Batch periodic checks</li>
+    <li>Reduce noisy loops/retries</li>
+    <li>Prioritize incremental data updates</li>
+  </ul>
+
+  <h2>6) Release & Regression Playbook</h2>
+  <p>Pre-release gates, post-release monitoring, and structured regression tracking.</p>
+
+  <h2>7) Command Reference</h2>
+  <div class="mono">openclaw gateway status
+openclaw gateway restart
+openclaw doctor
+openclaw doctor --fix
+openclaw status</div>
+
+  <div class="cta">
+    <strong>Need team rollout support?</strong><br/>
+    Get implementation help and latest regression updates at <b>atlaslionclaw.com</b>
+  </div>
+
+  <p class="footer">AtlasLionClaw · Paid Operator Content · https://atlaslionclaw.com</p>
+</body>
+</html>

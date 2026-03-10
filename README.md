@@ -36,6 +36,21 @@ npm run preview
 - Free PDF is now stored outside public web root by default:
   - `protected-assets/free/openclaw-quick-fix-guide.pdf`
 
+## Paid PDF (Stripe)
+- Endpoints:
+  - `api/create-checkout-session.js`
+  - `api/stripe-webhook.js`
+  - `api/paid-download.js`
+- Required env vars:
+  - `STRIPE_SECRET_KEY`
+  - `STRIPE_PRICE_ID`
+  - `STRIPE_WEBHOOK_SECRET`
+  - `PAID_PDF_TOKEN_TTL_MINUTES`
+- Run SQL:
+  - `supabase-paid-token-table.sql`
+- Configure Stripe webhook endpoint:
+  - `https://atlaslionclaw.com/api/stripe-webhook`
+
 ## Notes
 - Anti-spam included: honeypot + client-side rate limiting.
 - Blog routes are under `src/pages/blog/`.

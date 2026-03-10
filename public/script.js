@@ -69,6 +69,21 @@ function wire(formId, msgId, label, leadType) {
         return;
       }
 
+      if (leadType === 'paid_waitlist') {
+        const checkoutResp = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const checkout = await checkoutResp.json();
+        if (!checkoutResp.ok || !checkout.url) {
+          msg.textContent = `Error: ${checkout.error || 'Checkout failed'}`;
+          return;
+        }
+        window.location.href = checkout.url;
+        return;
+      }
+
       const result = await saveLead(email, leadType);
       if (result.ok) {
         msg.textContent = result.duplicate ? `${label}: already subscribed (${email}).` : `${label} success! Added ${email}.`;

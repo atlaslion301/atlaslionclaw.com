@@ -19,6 +19,8 @@
     p,li{font-size:13px; line-height:1.55}
     ul,ol{margin-top:8px}
     .callout{background:#eef4ff; border-left:5px solid #3b82f6; padding:10px 12px; border-radius:8px; margin:10px 0}
+    .shot{border:2px dashed #93c5fd;background:#f8fbff;border-radius:10px;padding:12px;margin:10px 0;color:#334155}
+    .shot b{color:#0f172a}
     .issue{border:1px solid #dbe7ff; border-radius:10px; padding:10px 12px; margin:10px 0; background:#fcfdff}
     .mono{font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background:#0f172a; color:#f8fafc; padding:10px; border-radius:8px; font-size:12px; white-space:pre-wrap}
     .footer{margin-top:26px; font-size:11px; color:#5b6b89}
@@ -45,6 +47,10 @@
     <li>If no response, use the troubleshooting matrix in Section 4.</li>
   </ol>
   <p><strong>Success check:</strong> OpenClaw replies consistently in your test channel.</p>
+
+  <div class="shot"><b>Screenshot 1:</b> Initial OpenClaw install + health check.</div>
+  <div class="shot"><b>Screenshot 2:</b> Policy/allowlist setup with your user ID.</div>
+  <div class="shot"><b>Screenshot 3:</b> Successful message loop in production test channel.</div>
 
   <h2>2) Incident Workflow (P0–P3)</h2>
   <div class="callout">Detect → Contain → Diagnose → Fix → Verify → Prevent recurrence</div>

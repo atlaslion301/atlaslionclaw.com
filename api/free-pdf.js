@@ -1,3 +1,6 @@
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ ok: false, error: 'Method not allowed' });
@@ -17,7 +20,10 @@ export default async function handler(req, res) {
       SUPABASE_SERVICE_ROLE_KEY,
       RESEND_API_KEY,
       FREE_PDF_FROM_EMAIL,
-      FREE_PDF_URL
+      FREE_PDF_URL,
+      FREE_PDF_DELIVERY_MODE,
+      FREE_PDF_ATTACHMENT_PATH,
+      FREE_PDF_ATTACHMENT_FILENAME
     } = process.env;
 
     if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
@@ -69,19 +75,37 @@ export default async function handler(req, res) {
       return;
     }
 
-    const pdfUrl = FREE_PDF_URL || 'https://atlaslionclaw.com/free/openclaw-quick-fix-guide.pdf';
+    const deliveryMode = (FREE_PDF_DELIVERY_MODE || 'url').toLowerCase();
+    const payload = {
+      from: FREE_PDF_FROM_EMAIL,
+      to: [cleanEmail],
+      subject: 'Your OpenClaw Quick Fix Guide (Free PDF)'
+    };
+
+    if (deliveryMode === 'attachment') {
+      const attachmentPath = FREE_PDF_ATTACHMENT_PATH || 'public/free/openclaw-quick-fix-guide.pdf';
+      const absolutePath = resolve(process.cwd(), attachmentPath);
+      const file = await readFile(absolutePath);
+      const base64 = file.toString('base64');
+      payload.html = '<p>Hey there,</p><p>Attached is your OpenClaw Quick Fix Guide PDF.</p><p>- AtlasLionClaw</p>';
+      payload.attachments = [
+        {
+          filename: FREE_PDF_ATTACHMENT_FILENAME || 'openclaw-quick-fix-guide.pdf',
+          content: base64
+        }
+      ];
+    } else {
+      const pdfUrl = FREE_PDF_URL || 'https://atlaslionclaw.com/free/openclaw-quick-fix-guide.pdf';
+      payload.html = `<p>Hey there,</p><p>Thanks for requesting the free OpenClaw Quick Fix Guide.</p><p><a href="${pdfUrl}">Download your PDF here</a></p><p>- AtlasLionClaw</p>`;
+    }
+
     const sendResp = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${RESEND_API_KEY}`
       },
-      body: JSON.stringify({
-        from: FREE_PDF_FROM_EMAIL,
-        to: [cleanEmail],
-        subject: 'Your OpenClaw Quick Fix Guide (Free PDF)',
-        html: `<p>Hey there,</p><p>Thanks for requesting the free OpenClaw Quick Fix Guide.</p><p><a href="${pdfUrl}">Download your PDF here</a></p><p>- AtlasLionClaw</p>`
-      })
+      body: JSON.stringify(payload)
     });
 
     if (!sendResp.ok) {

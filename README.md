@@ -26,7 +26,10 @@ npm run preview
   - `SUPABASE_SERVICE_ROLE_KEY`
   - `RESEND_API_KEY`
   - `FREE_PDF_FROM_EMAIL`
-  - `FREE_PDF_URL`
+  - `FREE_PDF_DELIVERY_MODE` (`attachment` or `url`)
+  - `FREE_PDF_URL` (if mode = `url`)
+  - `FREE_PDF_ATTACHMENT_PATH` + `FREE_PDF_ATTACHMENT_FILENAME` (if mode = `attachment`)
+- Put your PDF file in the repo path referenced by `FREE_PDF_ATTACHMENT_PATH` (default: `public/free/openclaw-quick-fix-guide.pdf`).
 
 ## Notes
 - Anti-spam included: honeypot + client-side rate limiting.

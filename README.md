@@ -16,8 +16,17 @@ npm run preview
 ```
 
 ## Supabase
-- Landing forms insert into `public.leads` using the publishable key.
+- Landing forms insert into `public.leads`.
 - SQL schema/policy file: `supabase.sql`
+
+## Free PDF email flow
+- Endpoint: `api/free-pdf.js` (Vercel Serverless Function)
+- Required env vars (set in Vercel): see `.env.example`
+  - `SUPABASE_URL`
+  - `SUPABASE_SERVICE_ROLE_KEY`
+  - `RESEND_API_KEY`
+  - `FREE_PDF_FROM_EMAIL`
+  - `FREE_PDF_URL`
 
 ## Notes
 - Anti-spam included: honeypot + client-side rate limiting.

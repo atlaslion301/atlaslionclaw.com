@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://atlaslionclaw.com/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://atlaslionclaw.com/"/>
-    <xhtml:link rel="alternate" hreflang="en-US" href="https://atlaslionclaw.com/us/"/>
-    <xhtml:link rel="alternate" hreflang="en-GB" href="https://atlaslionclaw.com/uk/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://atlaslionclaw.com/fr/"/>
-    <xhtml:link rel="alternate" hreflang="fr-MA" href="https://atlaslionclaw.com/ma-fr/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://atlaslionclaw.com/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ar-MA" href="https://atlaslionclaw.com/ma-ar/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://atlaslionclaw.com/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://atlaslionclaw.com/blog/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://atlaslionclaw.com/blog/openclaw-setup-checklist.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://atlaslionclaw.com/blog/openclaw-discord-fixes.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://atlaslionclaw.com/blog/openclaw-ai-news-roundup.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

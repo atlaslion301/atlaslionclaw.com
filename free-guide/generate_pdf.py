@@ -26,6 +26,9 @@ pdf.add_page()
 
 lines = SRC.read_text(encoding='utf-8').splitlines()
 
+def line(h, txt, align='L'):
+    pdf.multi_cell(0, h, txt, align=align, new_x='LMARGIN', new_y='NEXT')
+
 for raw in lines:
     s = clean(raw.strip())
 
@@ -43,7 +46,7 @@ for raw in lines:
     if s.startswith('# '):
         pdf.set_font('Helvetica', 'B', 20)
         pdf.set_text_color(20, 30, 60)
-        pdf.multi_cell(0, 10, s[2:], align='L')
+        line(10, s[2:])
         pdf.set_text_color(40, 40, 40)
         pdf.ln(2)
         continue
@@ -51,7 +54,7 @@ for raw in lines:
     if s.startswith('## '):
         pdf.set_font('Helvetica', 'B', 14)
         pdf.set_text_color(20, 30, 60)
-        pdf.multi_cell(0, 8, s[3:], align='L')
+        line(8, s[3:])
         pdf.set_text_color(40, 40, 40)
         pdf.ln(1)
         continue
@@ -67,10 +70,10 @@ for raw in lines:
         s = s.replace('**', '')
 
     try:
-        pdf.multi_cell(178, 6, s, align='L')
+        line(6, s)
     except Exception:
         for part in textwrap.wrap(s, width=95, break_long_words=True, break_on_hyphens=False):
-            pdf.multi_cell(178, 6, part, align='L')
+            line(6, part)
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
 pdf.output(str(OUT))

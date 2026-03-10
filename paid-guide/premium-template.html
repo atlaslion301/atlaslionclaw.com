@@ -35,17 +35,28 @@
     <p><strong>Version 1.0</strong> • Last updated: 2026-03-09</p>
   </section>
 
-  <h2>1) Incident Workflow (P0–P3)</h2>
+  <h2>1) Beginner Track (Non-Technical How-To)</h2>
+  <div class="callout"><strong>Use this first</strong> if you're setting up OpenClaw for the first time and want plain-English steps.</div>
+  <ol>
+    <li>Install OpenClaw and verify with <code>openclaw gateway status</code>.</li>
+    <li>Add one channel token (Discord or Telegram) first.</li>
+    <li>Set allowlist to your own user ID.</li>
+    <li>Restart gateway and send test message.</li>
+    <li>If no response, use the troubleshooting matrix in Section 4.</li>
+  </ol>
+  <p><strong>Success check:</strong> OpenClaw replies consistently in your test channel.</p>
+
+  <h2>2) Incident Workflow (P0–P3)</h2>
   <div class="callout">Detect → Contain → Diagnose → Fix → Verify → Prevent recurrence</div>
 
-  <h2>2) Full Setup & Provisioning</h2>
+  <h2>3) Full Setup & Provisioning</h2>
   <ul>
     <li>Clean install baseline for stable deployment</li>
     <li>Secure policy defaults and pair testing</li>
     <li>Role model for owners/admins/operators</li>
   </ul>
 
-  <h2>3) Advanced Troubleshooting Matrix</h2>
+  <h2>4) Advanced Troubleshooting Matrix</h2>
   <table>
     <thead><tr><th>Issue</th><th>Primary Checks</th><th>Reference URL</th></tr></thead>
     <tbody>
@@ -58,21 +69,21 @@
 
   <div class="issue"><h3>Quick Reference Chart</h3><p>Use this matrix to choose the fastest diagnostic path by failure surface (channel, gateway, scheduling, permissions).</p></div>
 
-  <h2>4) Security Hardening</h2>
+  <h2>5) Security Hardening</h2>
   <ul>
     <li>Allowlist-first policy model</li>
     <li>Token rotation and leak response</li>
     <li>Control-surface exposure minimization</li>
   </ul>
 
-  <h2>5) Cost & Performance</h2>
+  <h2>6) Cost & Performance</h2>
   <ul>
     <li>Batch periodic checks</li>
     <li>Reduce noisy loops/retries</li>
     <li>Prioritize incremental data updates</li>
   </ul>
 
-  <h2>6) Release & Regression Playbook</h2>
+  <h2>7) Release & Regression Playbook</h2>
   <p>Pre-release gates, post-release monitoring, and structured regression tracking.</p>
   <table>
     <thead><tr><th>Stage</th><th>Checklist</th><th>Owner</th></tr></thead>
@@ -83,7 +94,18 @@
     </tbody>
   </table>
 
-  <h2>7) Command Reference</h2>
+  <h2>8) Command Reference</h2>
+  <h3>Glossary (Beginner)</h3>
+  <table>
+    <thead><tr><th>Term</th><th>Simple Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>Gateway</td><td>Main OpenClaw service process.</td></tr>
+      <tr><td>Allowlist</td><td>Who is allowed to message the bot.</td></tr>
+      <tr><td>Pairing</td><td>First-time authorization between account and bot.</td></tr>
+      <tr><td>Webhook</td><td>Secure callback URL for payment/event confirmations.</td></tr>
+      <tr><td>Token</td><td>Secret key for connecting services.</td></tr>
+    </tbody>
+  </table>
   <div class="mono">openclaw gateway status
 openclaw gateway restart
 openclaw doctor
@@ -94,6 +116,7 @@ openclaw status</div>
     <strong>Need team rollout support?</strong><br/>
     Get implementation help and latest regression updates at <b>atlaslionclaw.com</b>
   </div>
+  <div class="callout"><strong>For non-technical users:</strong> Always validate one step at a time. If a step fails, don't continue—fix that step first.</div>
 
   <p class="footer">AtlasLionClaw · Paid Operator Content · https://atlaslionclaw.com</p>
 </body>

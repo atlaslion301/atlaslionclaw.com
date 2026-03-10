@@ -33,7 +33,18 @@
     <p style="font-size:13px;opacity:.9">Last updated: 2026-03-09</p>
   </section>
 
-  <h2>1) Quick Setup Checklist</h2>
+  <h2>1) Start Here (Beginner How-To)</h2>
+  <div class="callout"><strong>Goal:</strong> Get OpenClaw working in the simplest possible way, even if you're not technical.</div>
+  <ol>
+    <li>Install OpenClaw and open your terminal.</li>
+    <li>Run <code>openclaw gateway status</code>. If not running, start/restart gateway.</li>
+    <li>Add your chat token in config (Discord or Telegram).</li>
+    <li>Set a simple allowlist policy so only trusted users can message.</li>
+    <li>Send a test message and complete pairing when prompted.</li>
+  </ol>
+  <p><strong>Success check:</strong> You send a message and OpenClaw replies back in the same chat.</p>
+
+  <h2>2) Quick Setup Checklist</h2>
   <ol>
     <li>Install OpenClaw and confirm CLI health.</li>
     <li>Configure channel token(s) securely.</li>
@@ -42,25 +53,32 @@
     <li>Complete pairing and test end-to-end reply.</li>
   </ol>
 
-  <h2>2) Fast Triage Flow (60 seconds)</h2>
+  <h2>3) Fast Triage Flow (60 seconds)</h2>
   <div class="callout">
     Is gateway running? → token valid? → pairing approved? → allowlist correct? → restart needed? → run doctor.
   </div>
 
-  <h2>3) Top 10 Common Issues + Fixes</h2>
+  <h2>4) Top 10 Common Issues + Fixes</h2>
   <div class="issue"><h3>Discord DM not replying</h3><p><strong>Cause:</strong> Pairing not approved. <strong>Fix:</strong> Approve pairing and retest.</p><p><strong>Reference:</strong> https://docs.openclaw.ai/channels/discord</p></div>
   <div class="issue"><h3>Discord server messages ignored</h3><p><strong>Cause:</strong> Guild allowlist mismatch. <strong>Fix:</strong> Configure guild users allowlist explicitly.</p><p><strong>Reference:</strong> https://docs.openclaw.ai/channels/discord</p></div>
   <div class="issue"><h3>Telegram bot silent after setup</h3><p><strong>Cause:</strong> Token/gateway restart issue. <strong>Fix:</strong> Verify token and restart gateway.</p><p><strong>Reference:</strong> https://docs.openclaw.ai/channels/telegram</p></div>
   <div class="issue"><h3>Gateway fails after config edit</h3><p><strong>Cause:</strong> Schema validation error. <strong>Fix:</strong> Run doctor and fix invalid keys.</p><p><strong>Reference:</strong> https://docs.openclaw.ai/gateway/configuration</p></div>
   <div class="issue"><h3>Bot only responds on mention</h3><p><strong>Cause:</strong> requireMention behavior. <strong>Fix:</strong> adjust group mention config.</p><p><strong>Reference:</strong> https://docs.openclaw.ai/channels/discord</p></div>
 
-  <h2>4) Copy/Paste Commands</h2>
+  <h2>5) Copy/Paste Commands</h2>
   <div class="mono">openclaw gateway status
 openclaw gateway restart
 openclaw doctor
 openclaw doctor --fix</div>
 
-  <h2>5) Security Baseline</h2>
+  <h2>6) Security Baseline</h2>
+  <h3>Mini Glossary (Beginner)</h3>
+  <ul>
+    <li><strong>Gateway:</strong> the OpenClaw service process that handles messages.</li>
+    <li><strong>Pairing:</strong> the one-time approval linking your account to the bot.</li>
+    <li><strong>Allowlist:</strong> list of users/channels allowed to interact with the bot.</li>
+    <li><strong>Token:</strong> secret key used to connect OpenClaw to a platform.</li>
+  </ul>
   <ul>
     <li>Use allowlist by default.</li>
     <li>Rotate tokens if exposed.</li>

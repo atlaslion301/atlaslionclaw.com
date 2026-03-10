@@ -7,6 +7,9 @@
   <style>
     @page { margin: 18mm 14mm; }
     body{font-family: Inter, Arial, sans-serif; color:#10203a; margin:0;}
+    table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+    th,td{border:1px solid #c8d6f4;padding:8px;vertical-align:top}
+    th{background:#e9f0ff;color:#10203a;text-align:left}
     .cover{height:95vh; display:flex; flex-direction:column; justify-content:center; background:linear-gradient(135deg,#081122,#1d4ed8); color:white; padding:48px; border-radius:14px;}
     .logo{display:inline-flex;align-items:center;gap:8px;font-weight:800;letter-spacing:.04em}
     .logo-mark{width:26px;height:26px;border-radius:50%;display:inline-grid;place-items:center;background:#facc15;color:#0b1430;font-size:14px}
@@ -43,9 +46,17 @@
   </ul>
 
   <h2>3) Advanced Troubleshooting Matrix</h2>
-  <div class="issue"><h3>Discord Routing Fails</h3><p>Pairing, allowlists, mention gating, gateway restart checks.</p></div>
-  <div class="issue"><h3>Telegram Group Silence</h3><p>Privacy mode, permissions, and group policy validation path.</p></div>
-  <div class="issue"><h3>Gateway Startup Failure</h3><p>Schema validation, rollback strategy, and doctor-based recovery.</p></div>
+  <table>
+    <thead><tr><th>Issue</th><th>Primary Checks</th><th>Reference URL</th></tr></thead>
+    <tbody>
+      <tr><td>Discord Routing Fails</td><td>Pairing, allowlists, mention gating, restart checks</td><td>https://docs.openclaw.ai/channels/discord</td></tr>
+      <tr><td>Telegram Group Silence</td><td>Privacy mode, permissions, group policy</td><td>https://docs.openclaw.ai/channels/telegram</td></tr>
+      <tr><td>Gateway Startup Failure</td><td>Schema validation, rollback strategy, doctor run</td><td>https://docs.openclaw.ai/gateway/configuration</td></tr>
+      <tr><td>Cron jobs not firing</td><td>Scheduler status, job enabled, run history</td><td>https://docs.openclaw.ai/</td></tr>
+    </tbody>
+  </table>
+
+  <div class="issue"><h3>Quick Reference Chart</h3><p>Use this matrix to choose the fastest diagnostic path by failure surface (channel, gateway, scheduling, permissions).</p></div>
 
   <h2>4) Security Hardening</h2>
   <ul>
@@ -63,6 +74,14 @@
 
   <h2>6) Release & Regression Playbook</h2>
   <p>Pre-release gates, post-release monitoring, and structured regression tracking.</p>
+  <table>
+    <thead><tr><th>Stage</th><th>Checklist</th><th>Owner</th></tr></thead>
+    <tbody>
+      <tr><td>Pre-release</td><td>Config validation, smoke tests, rollback test</td><td>Build + QA</td></tr>
+      <tr><td>Launch</td><td>Core flow checks (DM/group/tool/calls)</td><td>Ops</td></tr>
+      <tr><td>Post-release 24h</td><td>Error watch, incident log, hotfix path</td><td>Ops + QA</td></tr>
+    </tbody>
+  </table>
 
   <h2>7) Command Reference</h2>
   <div class="mono">openclaw gateway status

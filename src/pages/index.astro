@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="OpenClaw Setup & Troubleshooting Guide (Free + Paid Playbook)" description="Fix OpenClaw setup and troubleshooting issues faster. Download the free Quick Fix PDF and join the advanced Operator Playbook waitlist.">
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="/">🦁 AtlasLionClaw</a>
+      <nav>
+        <a href="/blog/">Blog</a>
+        <a href="#free">Free PDF</a>
+        <a href="#paid">Paid Playbook</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">OPENCLAW OPERATOR GUIDES</p>
+        <h1>Elegant setup and troubleshooting guides for OpenClaw builders.</h1>
+        <p class="lead">Ship faster, debug less. Get the free quick-fix guide and join the advanced playbook waitlist.</p>
+        <div class="cta-row">
+          <a href="#free" class="btn">Get Free PDF</a>
+          <a href="#paid" class="btn btn-ghost">Join Waitlist</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <h3>What’s covered</h3>
+        <ul>
+          <li>Setup quickstart</li>
+          <li>Discord + Telegram fixes</li>
+          <li>Gateway + config errors</li>
+          <li>Security hardening basics</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <main class="container">
+    <section class="section" id="free">
+      <h2>Choose your guide</h2>
+      <div class="grid two">
+        <article class="card">
+          <p class="tag">FREE</p>
+          <h3>OpenClaw Quick Fix Guide</h3>
+          <ul>
+            <li>Install → configure → pair workflow</li>
+            <li>Top 10 issue fixes</li>
+            <li>Copy/paste command set</li>
+          </ul>
+          <form class="form" id="freeForm">
+            <label>Email</label>
+            <input type="email" name="email" required placeholder="you@example.com" />
+            <div class="hp-wrap" aria-hidden="true">
+              <label>Leave this field empty</label>
+              <input type="text" name="company_website" tabindex="-1" autocomplete="off" />
+            </div>
+            <button type="submit" class="btn">Send me the free PDF</button>
+          </form>
+          <p class="note" id="freeMsg"></p>
+        </article>
+
+        <article class="card" id="paid">
+          <p class="tag">PAID</p>
+          <h3>OpenClaw Operator Playbook</h3>
+          <ul>
+            <li>Deep root-cause troubleshooting</li>
+            <li>Team setup + provisioning checklists</li>
+            <li>Release/regression watch workflows</li>
+          </ul>
+          <form class="form" id="paidForm">
+            <label>Email</label>
+            <input type="email" name="email" required placeholder="you@example.com" />
+            <div class="hp-wrap" aria-hidden="true">
+              <label>Leave this field empty</label>
+              <input type="text" name="company_website" tabindex="-1" autocomplete="off" />
+            </div>
+            <button type="submit" class="btn btn-dark">Join waitlist</button>
+          </form>
+          <p class="note" id="paidMsg"></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Latest from the blog</h2>
+      <div class="grid three">
+        <a class="post-card" href="/blog/openclaw-setup-checklist/">
+          <h4>OpenClaw Setup Checklist (2026)</h4>
+          <p>Start clean and avoid common setup traps.</p>
+        </a>
+        <a class="post-card" href="/blog/openclaw-discord-fixes/">
+          <h4>Top Discord Integration Fixes</h4>
+          <p>Pairing, allowlists, and silent bot debugging.</p>
+        </a>
+        <a class="post-card" href="/blog/openclaw-ai-news-roundup/">
+          <h4>OpenClaw + AI News Roundup</h4>
+          <p>Weekly changes that matter for operators.</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container foot">
+    <small>© AtlasLionClaw · Independent operator content for OpenClaw users.</small>
+  </footer>
+
+  <script is:inline>
+    window.SUPABASE_URL = 'https://kanderhmsvibtduhpsir.supabase.co';
+    window.SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthbmRlcmhtc3ZpYnRkdWhwc2lyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTQ1NDQsImV4cCI6MjA4ODY3MDU0NH0.wlJq3rNNwyuqCiTbUd2SKk-sDgFFl-wPmfI2m4hLQIk';
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/script.js" defer></script>
+</BaseLayout>

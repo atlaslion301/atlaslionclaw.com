@@ -1,23 +1,25 @@
-# OpenClaw PDF MVP Page
+# AtlasLionClaw Site (Astro)
+
+This project is now migrated to **Astro** with static pages and blog routes.
 
 ## Run locally
 ```bash
 cd /home/atlaslion/.openclaw/workspace/openclaw-pdf-mvp
-python3 -m http.server 8791
+npm install
+npm run dev
 ```
-Open: http://localhost:8791
 
-## Supabase setup
-1. Open Supabase SQL Editor and run `supabase.sql`.
-2. Verify table: `public.leads`.
-3. This page uses:
-   - URL: `https://kanderhmsvibtduhpsir.supabase.co`
-   - publishable key: configured in `index.html`.
+## Build
+```bash
+npm run build
+npm run preview
+```
+
+## Supabase
+- Landing forms insert into `public.leads` using the publishable key.
+- SQL schema/policy file: `supabase.sql`
 
 ## Notes
-- Forms now insert into Supabase directly.
-- Anti-spam added: honeypot field + client-side rate limit.
-- For production hardening, move keys to environment variables (Next.js/Vercel) and use an API route.
-
-## Deploy
-- Follow `vercel-deploy-checklist.md` for final domain + SEO patching.
+- Anti-spam included: honeypot + client-side rate limiting.
+- Blog routes are under `src/pages/blog/`.
+- SEO basics included via layout metadata, canonical links, robots, and sitemap.

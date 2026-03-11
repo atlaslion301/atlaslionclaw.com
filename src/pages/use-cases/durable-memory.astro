@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="Durable Memory in OpenClaw" description="Agents that remember decisions and compound knowledge over time.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/use-cases/">← Back to Use Cases</a></p>
+      <h1>Durable Memory</h1>
+      <p class="lead">Agents that remember decisions and compound knowledge over time.</p>
+      
+      <h2>What it is</h2>
+      <p>Instead of starting from zero in every thread, OpenClaw agents read and update persistent markdown state files (like `MEMORY.md` or `STATE.md`). They use automated memory compaction scripts to continuously archive lessons learned and flush stale context.</p>
+      
+      <h2>Why it matters</h2>
+      <p>Agents without memory repeat the same mistakes. Durable memory allows your AI operators to compound their context over weeks and months, reducing token costs and ensuring that architectural decisions and standard operating procedures (SOPs) are strictly followed.</p>
+    </article>
+  </main>
+</BaseLayout>

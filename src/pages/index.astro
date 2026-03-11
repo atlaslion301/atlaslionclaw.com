@@ -6,19 +6,23 @@ import Accordion from '../components/Accordion.astro';
 const useCaseItems = [
   {
     question: 'Cron Orchestration',
-    answer: 'Schedule reliable agent loops. Never miss a background execution.'
+    answer: 'Schedule reliable agent loops. Never miss a background execution.',
+    href: '/use-cases/cron-orchestration/'
   },
   {
     question: 'Multi-Department Workflows',
-    answer: 'Gate execution across specialized agents to ensure quality.'
+    answer: 'Gate execution across specialized agents to ensure quality.',
+    href: '/use-cases/multi-department-workflows/'
   },
   {
     question: 'Secure Chat Ops',
-    answer: 'Command agents directly from Discord or Telegram with strict RBAC.'
+    answer: 'Command agents directly from Discord or Telegram with strict RBAC.',
+    href: '/use-cases/secure-chat-ops/'
   },
   {
     question: 'Durable Memory',
-    answer: 'Agents that remember decisions and compound knowledge over time.'
+    answer: 'Agents that remember decisions and compound knowledge over time.',
+    href: '/use-cases/durable-memory/'
   }
 ];
 
@@ -184,11 +188,14 @@ const pageSchema = {
       <h2>OpenClaw Skills & Use Cases</h2>
       <div class="grid two">
         {useCaseItems.map((item) => (
-          <article class="card">
-            <h3>{item.question}</h3>
+          <a class="post-card" href={item.href}>
+            <h4>{item.question}</h4>
             <p>{item.answer}</p>
-          </article>
+          </a>
         ))}
+      </div>
+      <div style="margin-top: 16px;">
+        <a href="/use-cases/" class="btn btn-ghost">View all Use Cases</a>
       </div>
     </section>
 

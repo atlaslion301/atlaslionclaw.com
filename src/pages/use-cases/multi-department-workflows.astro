@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="Multi-Department Workflows in OpenClaw" description="Gate execution across specialized agents to ensure quality.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/use-cases/">← Back to Use Cases</a></p>
+      <h1>Multi-Department Workflows</h1>
+      <p class="lead">Gate execution across specialized agents to ensure quality.</p>
+      
+      <h2>What it is</h2>
+      <p>OpenClaw supports running multiple isolated subagents, each with specific personas, prompts, and tools. They can pass tasks down a pipeline (e.g., Discovery → Validation → Build → QA → Scale) using strict SLAs and quality gates.</p>
+      
+      <h2>Why it matters</h2>
+      <p>One massive prompt inevitably leads to hallucination and dropped instructions. Specialized agents functioning as "departments" produce higher-quality, auditable work because they cross-check each other before anything reaches production.</p>
+    </article>
+  </main>
+</BaseLayout>

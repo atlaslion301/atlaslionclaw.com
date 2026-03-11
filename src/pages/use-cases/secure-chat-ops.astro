@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="Secure Chat Ops with OpenClaw" description="Command agents directly from Discord or Telegram with strict RBAC.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/use-cases/">← Back to Use Cases</a></p>
+      <h1>Secure Chat Ops</h1>
+      <p class="lead">Command agents directly from Discord or Telegram with strict RBAC.</p>
+      
+      <h2>What it is</h2>
+      <p>OpenClaw operates directly within your existing team chat surfaces like Discord or Telegram. It uses role-based access control (RBAC), channel gating, and isolated execution to ensure that only authorized users can trigger high-impact actions.</p>
+      
+      <h2>Why it matters</h2>
+      <p>You don't need to build a new dashboard to run your AI operations. Chat Ops puts the command line where your team already works, ensuring high visibility, faster response times, and an instant audit trail of every automated action taken.</p>
+    </article>
+  </main>
+</BaseLayout>

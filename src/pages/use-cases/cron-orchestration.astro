@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="Cron Orchestration with OpenClaw" description="Schedule reliable agent loops. Never miss a background execution.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/use-cases/">← Back to Use Cases</a></p>
+      <h1>Cron Orchestration</h1>
+      <p class="lead">Schedule reliable agent loops. Never miss a background execution.</p>
+      
+      <h2>What it is</h2>
+      <p>OpenClaw allows you to attach cron schedules to specific agent workflows. Instead of relying on manual triggers, agents wake up, execute their pipelines, and report back automatically.</p>
+      
+      <h2>Why it matters</h2>
+      <p>Reliable background processing is the foundation of AI operations. Without it, you are just chatting with a bot. With it, you are running an autonomous workforce that handles routine research, pipeline management, and memory compaction without human intervention.</p>
+    </article>
+  </main>
+</BaseLayout>

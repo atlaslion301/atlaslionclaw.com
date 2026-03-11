@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="OpenClaw Skills & Use Cases" description="Discover what OpenClaw can actually do. Explore core operations-grade use cases like Cron Orchestration, Multi-Department Workflows, Secure Chat Ops, and Durable Memory.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+
+  <main class="container">
+    <section class="content-shell blog-shell">
+      <h1>OpenClaw Skills & Use Cases</h1>
+      <p class="lead">Explore what you can build and automate with OpenClaw in production.</p>
+
+      <div class="grid two">
+        <a class="post-card" href="/use-cases/cron-orchestration/">
+          <h4>Cron Orchestration</h4>
+          <p>Schedule reliable agent loops. Never miss a background execution.</p>
+        </a>
+        <a class="post-card" href="/use-cases/multi-department-workflows/">
+          <h4>Multi-Department Workflows</h4>
+          <p>Gate execution across specialized agents to ensure quality.</p>
+        </a>
+        <a class="post-card" href="/use-cases/secure-chat-ops/">
+          <h4>Secure Chat Ops</h4>
+          <p>Command agents directly from Discord or Telegram with strict RBAC.</p>
+        </a>
+        <a class="post-card" href="/use-cases/durable-memory/">
+          <h4>Durable Memory</h4>
+          <p>Agents that remember decisions and compound knowledge over time.</p>
+        </a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

@@ -7,7 +7,6 @@ export default async function handler(req, res) {
     const {
       SUPABASE_URL,
       SUPABASE_SERVICE_ROLE_KEY,
-      FREE_PDF_ATTACHMENT_PATH,
       FREE_PDF_ATTACHMENT_FILENAME,
       FREE_PDF_URL
     } = process.env;
@@ -38,21 +37,16 @@ export default async function handler(req, res) {
     if (new Date(row.expires_at).getTime() < Date.now()) return res.status(410).send('Link expired');
 
     const staticPdfUrl = FREE_PDF_URL || '/free/openclaw-quick-fix-guide.pdf';
+    const base = `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers.host}`;
+    const sourceUrl = staticPdfUrl.startsWith('http') ? staticPdfUrl : `${base}${staticPdfUrl}`;
 
-    // Validate static URL is reachable from this deployment (best effort)
-    let canRedirect = true;
-    try {
-      const base = `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers.host}`;
-      const probeUrl = staticPdfUrl.startsWith('http') ? staticPdfUrl : `${base}${staticPdfUrl}`;
-      const probe = await fetch(probeUrl, { method: 'HEAD' });
-      canRedirect = probe.ok;
-    } catch (_) {
-      canRedirect = true; // allow redirect even if probe failed due to networking quirks
-    }
-
-    if (!canRedirect) {
+    const pdfResp = await fetch(sourceUrl);
+    if (!pdfResp.ok) {
+      console.error('Static PDF fetch failed:', sourceUrl, pdfResp.status);
       return res.status(500).send('PDF file missing on server');
     }
+
+    const fileBuffer = Buffer.from(await pdfResp.arrayBuffer());
 
     await fetch(`${SUPABASE_URL}/rest/v1/pdf_access_tokens?id=eq.${row.id}`, {
       method: 'PATCH',
@@ -64,7 +58,9 @@ export default async function handler(req, res) {
       body: JSON.stringify({ used_at: new Date().toISOString() })
     });
 
-    return res.redirect(302, staticPdfUrl);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="${FREE_PDF_ATTACHMENT_FILENAME || 'openclaw-quick-fix-guide.pdf'}"`);
+    return res.status(200).send(fileBuffer);
   } catch (e) {
     res.status(500).send('Download failed');
   }

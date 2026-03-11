@@ -3,6 +3,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import NavBar from '../components/NavBar.astro';
 import Accordion from '../components/Accordion.astro';
 
+const useCaseItems = [
+  {
+    question: 'Cron Orchestration',
+    answer: 'Schedule reliable agent loops. Never miss a background execution.'
+  },
+  {
+    question: 'Multi-Department Workflows',
+    answer: 'Gate execution across specialized agents to ensure quality.'
+  },
+  {
+    question: 'Secure Chat Ops',
+    answer: 'Command agents directly from Discord or Telegram with strict RBAC.'
+  },
+  {
+    question: 'Durable Memory',
+    answer: 'Agents that remember decisions and compound knowledge over time.'
+  }
+];
+
 const quickAnswerItems = [
   {
     question: 'What is the fastest reliable setup path?',
@@ -158,6 +177,18 @@ const pageSchema = {
           <h4>OpenClaw Security Hardening in 2026</h4>
           <p>Safer production deployments with practical guardrails.</p>
         </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>OpenClaw Skills & Use Cases</h2>
+      <div class="grid two">
+        {useCaseItems.map((item) => (
+          <article class="card">
+            <h3>{item.question}</h3>
+            <p>{item.answer}</p>
+          </article>
+        ))}
       </div>
     </section>
 

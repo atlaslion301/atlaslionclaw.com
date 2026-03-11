@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="From Prompting to Operations: Running AI Agents Like Production Services" description="How modern teams move from ad-hoc prompting to reliable AI operations with observability, approvals, and runbooks.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/blog/">← Back to blog</a></p>
+      <h1>From Prompting to Operations: How Teams Are Running AI Agents Like Production Services</h1>
+
+      <p>Prompting gets prototypes working. Operations keeps them working. In 2026, teams winning with AI agents are treating them like production services with owners, monitoring, and incident playbooks.</p>
+
+      <h2>The Shift: Demo Mindset vs Operations Mindset</h2>
+      <ul>
+        <li><strong>Demo mindset:</strong> “It worked once.”</li>
+        <li><strong>Operations mindset:</strong> “It works reliably with guardrails.”</li>
+      </ul>
+
+      <h2>Five Practical AI Ops Pillars</h2>
+      <h3>1) Observability by default</h3>
+      <p>Track key events for each workflow: trigger, execution, success/failure, and delivery status.</p>
+
+      <h3>2) Approval gates for risky actions</h3>
+      <p>Use human approval for sensitive operations (payments, destructive actions, external messaging bursts).</p>
+
+      <h3>3) Reliable scheduling patterns</h3>
+      <p>Separate precise reminders from complex recurring workflows and enforce explicit ownership.</p>
+
+      <h3>4) Security-first channel posture</h3>
+      <p>Allowlist-first messaging policy + strict token handling reduces both security and reliability incidents.</p>
+
+      <h3>5) Weekly review ritual</h3>
+      <p>Short cross-functional reviews (Build + QA + Growth) prevent drift and surface silent failures early.</p>
+
+      <h2>AI Ops Starter Framework</h2>
+      <ul>
+        <li>[ ] Define one vertical slice end-to-end.</li>
+        <li>[ ] Instrument core funnel/runtime events.</li>
+        <li>[ ] Add a severity model (P0–P3).</li>
+        <li>[ ] Assign owner per scheduled workflow.</li>
+        <li>[ ] Create rollback steps before scale-up.</li>
+      </ul>
+
+      <h2>Geo Optimization Notes</h2>
+      <p>Primary locale: en-US. Planned regional adaptations: en-GB, fr-MA, ar-MA with localized terminology and timezone examples for operations teams.</p>
+
+      <h2>Final Takeaway</h2>
+      <p>Teams that operationalize AI agents early gain compounding advantage: fewer outages, faster iteration, and higher trust from users and stakeholders.</p>
+    </article>
+  </main>
+</BaseLayout>

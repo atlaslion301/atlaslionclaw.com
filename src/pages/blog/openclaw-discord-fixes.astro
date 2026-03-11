@@ -1,6 +1,20 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NavBar from '../../components/NavBar.astro';
+import Accordion from '../../components/Accordion.astro';
+
+const faqItems = [
+  {
+    question: 'Why is my bot not replying?',
+    answer:
+      'Usually permissions and routing policy, not model quality. Validate channel rules and triggers first.'
+  },
+  {
+    question: 'What test should I run after fixes?',
+    answer:
+      'Run one mention test and one follow-up message in the same channel. Confirm both are handled as expected.'
+  }
+];
 
 const pageSchema = {
   '@context': 'https://schema.org',
@@ -64,11 +78,7 @@ const pageSchema = {
       </ul>
 
       <h2>FAQ</h2>
-      <h3>Why is my bot not replying?</h3>
-      <p>Usually permissions and routing policy, not model quality. Validate channel rules and triggers first.</p>
-
-      <h3>What test should I run after fixes?</h3>
-      <p>Run one mention test and one follow-up message in the same channel. Confirm both are handled as expected.</p>
+      <Accordion items={faqItems} idPrefix="discord-faq" />
 
       <h2>Related guides</h2>
       <p>Next read <a href="/blog/openclaw-setup-checklist/">OpenClaw Setup Checklist</a>, <a href="/blog/telegram-vs-discord-openclaw-2026/">Telegram vs Discord for OpenClaw</a>, and <a href="/blog/openclaw-reliable-scheduled-workflows/">Reliable Scheduled Workflows</a>.</p>

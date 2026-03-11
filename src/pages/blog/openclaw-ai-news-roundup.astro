@@ -1,6 +1,20 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NavBar from '../../components/NavBar.astro';
+import Accordion from '../../components/Accordion.astro';
+
+const faqItems = [
+  {
+    question: 'Which updates should small teams implement first?',
+    answer:
+      'Start with reliability and security updates that reduce incidents, then adopt workflow enhancements that save repeated manual effort.'
+  },
+  {
+    question: 'How often should we review this roundup?',
+    answer:
+      'Weekly is enough for most teams, with a monthly retro to decide which changes to scale across environments.'
+  }
+];
 
 const pageSchema = {
   '@context': 'https://schema.org',
@@ -56,11 +70,7 @@ const pageSchema = {
       </ul>
 
       <h2>FAQ</h2>
-      <h3>Which updates should small teams implement first?</h3>
-      <p>Start with reliability and security updates that reduce incidents, then adopt workflow enhancements that save repeated manual effort.</p>
-
-      <h3>How often should we review this roundup?</h3>
-      <p>Weekly is enough for most teams, with a monthly retro to decide which changes to scale across environments.</p>
+      <Accordion items={faqItems} idPrefix="news-faq" />
 
       <h2>Related guides</h2>
       <p>See <a href="/blog/openclaw-march-2026-reliability-updates/">March 2026 Reliability Updates</a>, <a href="/blog/openclaw-security-hardening-2026/">Security Hardening</a>, and <a href="/blog/from-prompting-to-ai-operations/">From Prompting to AI Operations</a>.</p>

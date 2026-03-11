@@ -1,6 +1,19 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NavBar from '../../components/NavBar.astro';
+import Accordion from '../../components/Accordion.astro';
+
+const faqItems = [
+  {
+    question: 'What is the most important first check?',
+    answer: 'CLI health + gateway status. If those fail, channel-level debugging wastes time.'
+  },
+  {
+    question: 'How do I know setup is production-ready?',
+    answer:
+      'You can consistently pass an end-to-end message test, keep permissions constrained, and reproduce behavior after restart.'
+  }
+];
 
 const pageSchema = {
   '@context': 'https://schema.org',
@@ -68,11 +81,7 @@ const pageSchema = {
       </ul>
 
       <h2>FAQ</h2>
-      <h3>What is the most important first check?</h3>
-      <p>CLI health + gateway status. If those fail, channel-level debugging wastes time.</p>
-
-      <h3>How do I know setup is production-ready?</h3>
-      <p>You can consistently pass an end-to-end message test, keep permissions constrained, and reproduce behavior after restart.</p>
+      <Accordion items={faqItems} idPrefix="setup-faq" />
 
       <h2>Related guides</h2>
       <p>Continue with <a href="/blog/openclaw-discord-fixes/">Top Discord Integration Fixes</a>, <a href="/blog/openclaw-security-hardening-2026/">OpenClaw Security Hardening in 2026</a>, and <a href="/blog/openclaw-reliable-scheduled-workflows/">Reliable Scheduled Agent Workflows</a>.</p>

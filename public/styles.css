@@ -100,6 +100,60 @@ input {
 .content-shell p, .content-shell li { color: #d4def2; }
 .content-shell a { color: var(--primary-2); }
 
+.accordion {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.accordion-item + .accordion-item {
+  border-top: 1px solid var(--border);
+}
+
+.accordion-title {
+  margin: 0;
+}
+
+.accordion-trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: left;
+  padding: 14px 16px;
+  cursor: pointer;
+}
+
+.accordion-trigger:hover {
+  background: rgba(19, 44, 68, 0.75);
+}
+
+.accordion-trigger:focus-visible {
+  outline: 2px solid var(--primary-2);
+  outline-offset: -2px;
+}
+
+.accordion-icon {
+  font-size: 1.25rem;
+  color: var(--primary-2);
+  line-height: 1;
+}
+
+.accordion-panel {
+  padding: 0 16px 14px;
+}
+
+.accordion-panel p {
+  margin: 0;
+}
+
 .blog-shell { max-width: 900px; width: min(900px, 100%); margin: 0 auto; }
 .blog-shell .lead { max-width: 70ch; }
 

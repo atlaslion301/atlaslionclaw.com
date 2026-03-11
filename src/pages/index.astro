@@ -1,6 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NavBar from '../components/NavBar.astro';
+import Accordion from '../components/Accordion.astro';
+
+const faqItems = [
+  {
+    question: 'What does AtlasLionClaw help with?',
+    answer:
+      'AtlasLionClaw helps operators deploy and troubleshoot OpenClaw with production-minded checklists, hardening guidance, and repeatable workflow patterns.'
+  },
+  {
+    question: 'Is the free PDF enough for first deployment?',
+    answer:
+      'Yes. The free guide covers first deployment basics and top failure fixes. The paid playbook goes deeper on hardening and multi-person operations.'
+  },
+  {
+    question: 'Which guide should I read first?',
+    answer:
+      'Start with the <a href="/blog/openclaw-setup-checklist/">OpenClaw Setup Checklist</a>, then continue with <a href="/blog/openclaw-security-hardening-2026/">Security Hardening</a> and <a href="/blog/telegram-vs-discord-openclaw-2026/">Telegram vs Discord</a> for architecture decisions.'
+  }
+];
 
 const pageSchema = {
   '@context': 'https://schema.org',
@@ -137,12 +156,7 @@ const pageSchema = {
 
     <section class="section">
       <h2>FAQ</h2>
-      <h3>What does AtlasLionClaw help with?</h3>
-      <p>AtlasLionClaw helps operators deploy and troubleshoot OpenClaw with production-minded checklists, hardening guidance, and repeatable workflow patterns.</p>
-      <h3>Is the free PDF enough for first deployment?</h3>
-      <p>Yes. The free guide covers first deployment basics and top failure fixes. The paid playbook goes deeper on hardening and multi-person operations.</p>
-      <h3>Which guide should I read first?</h3>
-      <p>Start with the <a href="/blog/openclaw-setup-checklist/">OpenClaw Setup Checklist</a>, then continue with <a href="/blog/openclaw-security-hardening-2026/">Security Hardening</a> and <a href="/blog/telegram-vs-discord-openclaw-2026/">Telegram vs Discord</a> for architecture decisions.</p>
+      <Accordion items={faqItems} idPrefix="home-faq" />
     </section>
   </main>
 

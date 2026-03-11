@@ -1,4 +1,8 @@
 ---
+import SiteFooter from '../components/SiteFooter.astro';
+
+import SiteFooter from '../components/SiteFooter.astro';
+
 const {
   title = 'AtlasLionClaw',
   description = 'OpenClaw setup and troubleshooting guides.',
@@ -45,5 +49,6 @@ const organizationSchema = {
   </head>
   <body>
     <slot />
+    <SiteFooter />
   </body>
 </html>

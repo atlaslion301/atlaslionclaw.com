@@ -30,6 +30,17 @@ function canSubmit(formId) {
   return true;
 }
 
+async function requestFreePdf(email) {
+  const resp = await fetch('/api/free-pdf', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  });
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) return { ok: false, error: data.error || 'Free PDF request failed' };
+  return data;
+}
+
 function wire(formId, msgId, label, leadType) {
   const form = document.getElementById(formId);
   const msg = document.getElementById(msgId);
@@ -45,6 +56,34 @@ function wire(formId, msgId, label, leadType) {
 
     msg.textContent = 'Submitting...';
     try {
+      if (leadType === 'free_pdf') {
+        const result = await requestFreePdf(email);
+        if (result.ok) {
+          msg.textContent = result.emailed
+            ? `Free PDF sent to ${email}. Check your inbox.`
+            : `Saved ${email}. Email sender not configured yet.`;
+          form.reset();
+        } else {
+          msg.textContent = `Error: ${result.error}`;
+        }
+        return;
+      }
+
+      if (leadType === 'paid_waitlist') {
+        const checkoutResp = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const checkout = await checkoutResp.json();
+        if (!checkoutResp.ok || !checkout.url) {
+          msg.textContent = `Error: ${checkout.error || 'Checkout failed'}`;
+          return;
+        }
+        window.location.href = checkout.url;
+        return;
+      }
+
       const result = await saveLead(email, leadType);
       if (result.ok) {
         msg.textContent = result.duplicate ? `${label}: already subscribed (${email}).` : `${label} success! Added ${email}.`;

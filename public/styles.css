@@ -162,7 +162,7 @@ input {
 .site-footer {
   width: 100%;
   margin-top: 40px;
-  padding: 28px 0;
+  padding: 28px 0 0;
   background: var(--surface-2);
   border-top: 1px solid var(--border);
 }
@@ -198,6 +198,13 @@ input {
 
 .site-footer a:hover {
   color: var(--text);
+}
+
+.footer-bottom {
+  margin-top: 14px;
+  padding: 12px 0 18px;
+  border-top: 1px solid rgba(74, 107, 143, 0.35);
+  color: #9cb0d3;
 }
 
 .sr-only {

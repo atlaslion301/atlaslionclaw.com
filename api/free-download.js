@@ -1,5 +1,3 @@
-import { readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
 
 export default async function handler(req, res) {
   try {
@@ -39,31 +37,20 @@ export default async function handler(req, res) {
     if (row.used_at) return res.status(410).send('Link already used');
     if (new Date(row.expires_at).getTime() < Date.now()) return res.status(410).send('Link expired');
 
-    const candidates = [
-      FREE_PDF_ATTACHMENT_PATH,
-      'protected-assets/free/openclaw-quick-fix-guide.pdf',
-      'public/free/openclaw-quick-fix-guide.pdf'
-    ].filter(Boolean);
+    const staticPdfUrl = FREE_PDF_URL || '/free/openclaw-quick-fix-guide.pdf';
 
-    let file = null;
-    let chosenPath = null;
-
-    for (const relPath of candidates) {
-      try {
-        const filePath = resolve(process.cwd(), relPath);
-        file = await readFile(filePath);
-        chosenPath = filePath;
-        break;
-      } catch (_) {
-        // try next candidate
-      }
+    // Validate static URL is reachable from this deployment (best effort)
+    let canRedirect = true;
+    try {
+      const base = `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers.host}`;
+      const probeUrl = staticPdfUrl.startsWith('http') ? staticPdfUrl : `${base}${staticPdfUrl}`;
+      const probe = await fetch(probeUrl, { method: 'HEAD' });
+      canRedirect = probe.ok;
+    } catch (_) {
+      canRedirect = true; // allow redirect even if probe failed due to networking quirks
     }
 
-    if (!file) {
-      if (FREE_PDF_URL) {
-        return res.redirect(302, FREE_PDF_URL);
-      }
-      console.error('Free PDF file not found in candidates:', candidates, 'cwd:', process.cwd());
+    if (!canRedirect) {
       return res.status(500).send('PDF file missing on server');
     }
 
@@ -77,10 +64,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({ used_at: new Date().toISOString() })
     });
 
-    console.log('Serving free PDF from:', chosenPath);
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="${FREE_PDF_ATTACHMENT_FILENAME || 'openclaw-quick-fix-guide.pdf'}"`);
-    res.status(200).send(file);
+    return res.redirect(302, staticPdfUrl);
   } catch (e) {
     res.status(500).send('Download failed');
   }

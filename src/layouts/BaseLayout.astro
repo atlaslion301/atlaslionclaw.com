@@ -1,5 +1,21 @@
 ---
-const { title = 'AtlasLionClaw', description = 'OpenClaw setup and troubleshooting guides.' } = Astro.props;
+const {
+  title = 'AtlasLionClaw',
+  description = 'OpenClaw setup and troubleshooting guides.',
+  type = 'website',
+  image = 'https://atlaslionclaw.com/og-default.png',
+  schema = null
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'AtlasLionClaw',
+  url: 'https://atlaslionclaw.com',
+  description: 'OpenClaw setup and troubleshooting guides for builders and operators.'
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -10,7 +26,22 @@ const { title = 'AtlasLionClaw', description = 'OpenClaw setup and troubleshooti
     <meta name="description" content={description} />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
     <link rel="stylesheet" href="/styles.css" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).toString()} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content="AtlasLionClaw" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)}></script>}
   </head>
   <body>
     <slot />

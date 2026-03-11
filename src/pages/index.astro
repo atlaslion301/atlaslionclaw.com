@@ -1,8 +1,45 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NavBar from '../components/NavBar.astro';
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'OpenClaw Setup & Troubleshooting Guide (Free + Paid Playbook)',
+  url: 'https://atlaslionclaw.com/',
+  description: 'Fix OpenClaw setup and troubleshooting issues faster. Download the free Quick Fix PDF and join the advanced Operator Playbook waitlist.',
+  mainEntity: {
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is AtlasLionClaw?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'AtlasLionClaw publishes OpenClaw setup guides, troubleshooting checklists, and operator playbooks so teams can run agents more reliably in production.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Who should use the free OpenClaw Quick Fix Guide?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The free guide is designed for builders who want a fast install-to-pairing workflow and fixes for common Discord, Telegram, gateway, and configuration issues.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'When should I use the Operator Playbook?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Use the Operator Playbook when you are moving from one-off demos to repeatable production workflows with stronger hardening, monitoring, and release validation.'
+        }
+      }
+    ]
+  }
+};
 ---
-<BaseLayout title="OpenClaw Setup & Troubleshooting Guide (Free + Paid Playbook)" description="Fix OpenClaw setup and troubleshooting issues faster. Download the free Quick Fix PDF and join the advanced Operator Playbook waitlist.">
+<BaseLayout title="OpenClaw Setup & Troubleshooting Guide (Free + Paid Playbook)" description="Fix OpenClaw setup and troubleshooting issues faster. Download the free Quick Fix PDF and join the advanced Operator Playbook waitlist." schema={pageSchema}>
   <NavBar links={[{ href: '/blog/', label: 'Blog' }, { href: '#free', label: 'Free PDF' }, { href: '#paid', label: 'Paid Playbook' }]} />
 
   <section class="hero">
@@ -90,6 +127,22 @@ import NavBar from '../components/NavBar.astro';
           <p>Safer production deployments with practical guardrails.</p>
         </a>
       </div>
+    </section>
+
+    <section class="section">
+      <h2>OpenClaw setup: quick answer</h2>
+      <p><strong>What is the fastest reliable setup path?</strong> Install OpenClaw, configure channel tokens securely, start gateway, complete pairing, and run an end-to-end message test before opening access to a wider team.</p>
+      <p><strong>How do you prevent most failures?</strong> Use a preflight checklist, keep allowlists explicit, and validate one integration at a time. Start with these guides: <a href="/blog/openclaw-setup-checklist/">Setup Checklist</a>, <a href="/blog/openclaw-discord-fixes/">Discord Fixes</a>, and <a href="/blog/openclaw-reliable-scheduled-workflows/">Reliable Scheduled Workflows</a>.</p>
+    </section>
+
+    <section class="section">
+      <h2>FAQ</h2>
+      <h3>What does AtlasLionClaw help with?</h3>
+      <p>AtlasLionClaw helps operators deploy and troubleshoot OpenClaw with production-minded checklists, hardening guidance, and repeatable workflow patterns.</p>
+      <h3>Is the free PDF enough for first deployment?</h3>
+      <p>Yes. The free guide covers first deployment basics and top failure fixes. The paid playbook goes deeper on hardening and multi-person operations.</p>
+      <h3>Which guide should I read first?</h3>
+      <p>Start with the <a href="/blog/openclaw-setup-checklist/">OpenClaw Setup Checklist</a>, then continue with <a href="/blog/openclaw-security-hardening-2026/">Security Hardening</a> and <a href="/blog/telegram-vs-discord-openclaw-2026/">Telegram vs Discord</a> for architecture decisions.</p>
     </section>
   </main>
 

@@ -3,6 +3,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import NavBar from '../components/NavBar.astro';
 import Accordion from '../components/Accordion.astro';
 
+const quickAnswerItems = [
+  {
+    question: 'What is the fastest reliable setup path?',
+    answer:
+      'Install OpenClaw, configure channel tokens securely, start gateway, complete pairing, and run an end-to-end message test before opening access to a wider team.'
+  },
+  {
+    question: 'How do you prevent most failures?',
+    answer:
+      'Use a preflight checklist, keep allowlists explicit, and validate one integration at a time. Start with these guides: <a href="/blog/openclaw-setup-checklist/">Setup Checklist</a>, <a href="/blog/openclaw-discord-fixes/">Discord Fixes</a>, and <a href="/blog/openclaw-reliable-scheduled-workflows/">Reliable Scheduled Workflows</a>.'
+  }
+];
+
 const faqItems = [
   {
     question: 'What does AtlasLionClaw help with?',
@@ -150,8 +163,7 @@ const pageSchema = {
 
     <section class="section">
       <h2>OpenClaw setup: quick answer</h2>
-      <p><strong>What is the fastest reliable setup path?</strong> Install OpenClaw, configure channel tokens securely, start gateway, complete pairing, and run an end-to-end message test before opening access to a wider team.</p>
-      <p><strong>How do you prevent most failures?</strong> Use a preflight checklist, keep allowlists explicit, and validate one integration at a time. Start with these guides: <a href="/blog/openclaw-setup-checklist/">Setup Checklist</a>, <a href="/blog/openclaw-discord-fixes/">Discord Fixes</a>, and <a href="/blog/openclaw-reliable-scheduled-workflows/">Reliable Scheduled Workflows</a>.</p>
+      <Accordion items={quickAnswerItems} idPrefix="home-quick-answer" />
     </section>
 
     <section class="section">

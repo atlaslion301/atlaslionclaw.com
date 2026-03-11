@@ -21,7 +21,11 @@ export default async function handler(req, res) {
       }
     );
 
-    if (!lookup.ok) return res.status(500).send('Token lookup failed');
+    if (!lookup.ok) {
+      const t = await lookup.text();
+      console.error('Token lookup failed:', t);
+      return res.status(500).send('Token lookup failed');
+    }
     const rows = await lookup.json();
     if (!Array.isArray(rows) || rows.length === 0) return res.status(404).send('Invalid token');
 

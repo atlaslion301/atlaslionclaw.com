@@ -88,7 +88,7 @@ export default async function handler(req, res) {
     const ttlMinutes = Number(process.env.FREE_PDF_TOKEN_TTL_MINUTES || 15);
     const token = crypto.randomBytes(32).toString('base64url');
     const expires = new Date(Date.now() + 1000 * 60 * ttlMinutes).toISOString();
-    await fetch(`${SUPABASE_URL}/rest/v1/pdf_access_tokens`, {
+    const tokenInsertResp = await fetch(`${SUPABASE_URL}/rest/v1/pdf_access_tokens`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -98,6 +98,12 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify([{ email: cleanEmail, token, expires_at: expires }])
     });
+
+    if (!tokenInsertResp.ok) {
+      const t = await tokenInsertResp.text();
+      res.status(500).json({ ok: false, error: `Token storage failed: ${t}` });
+      return;
+    }
 
     if (deliveryMode === 'attachment') {
       const attachmentPath = FREE_PDF_ATTACHMENT_PATH || 'public/free/openclaw-quick-fix-guide.pdf';

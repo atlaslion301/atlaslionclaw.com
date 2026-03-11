@@ -1,15 +1,42 @@
 ---
-const { links = [] } = Astro.props;
+const defaultLinks = [
+  { href: '/blog/', label: 'Blog' },
+  { href: '/use-cases/', label: 'Use Cases' },
+  { href: '/#free', label: 'Free PDF' },
+  { href: '/#paid', label: 'Paid Playbook' }
+];
 ---
 <header class="site-header">
   <div class="container nav">
     <a class="brand" href="/" aria-label="AtlasLionClaw home">
       <img src="/assets/atlaslionclaw-logo.png" alt="AtlasLionClaw" />
     </a>
-    <nav>
-      {links.map((link) => (
+    
+    <button class="mobile-menu-toggle" aria-expanded="false" aria-label="Toggle menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <nav class="nav-links">
+      {defaultLinks.map((link) => (
         <a href={link.href}>{link.label}</a>
       ))}
     </nav>
   </div>
 </header>
+
+<script is:inline>
+  const toggle = document.querySelector('.mobile-menu-toggle');
+  const nav = document.querySelector('.nav-links');
+  
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', !isExpanded);
+      nav.classList.toggle('is-open');
+    });
+  }
+</script>

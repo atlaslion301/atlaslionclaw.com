@@ -1,3 +1,5 @@
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 
 export default async function handler(req, res) {
   try {
@@ -7,8 +9,7 @@ export default async function handler(req, res) {
     const {
       SUPABASE_URL,
       SUPABASE_SERVICE_ROLE_KEY,
-      FREE_PDF_ATTACHMENT_FILENAME,
-      FREE_PDF_URL
+      FREE_PDF_ATTACHMENT_FILENAME
     } = process.env;
     if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
       return res.status(500).send('Server misconfigured');
@@ -36,17 +37,29 @@ export default async function handler(req, res) {
     if (row.used_at) return res.status(410).send('Link already used');
     if (new Date(row.expires_at).getTime() < Date.now()) return res.status(410).send('Link expired');
 
-    const staticPdfUrl = FREE_PDF_URL || '/free/openclaw-quick-fix-guide.pdf';
-    const base = `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers.host}`;
-    const sourceUrl = staticPdfUrl.startsWith('http') ? staticPdfUrl : `${base}${staticPdfUrl}`;
+    const candidates = [
+      'protected-assets/free/openclaw-quick-fix-guide.pdf',
+      'free-guide/openclaw-quick-fix-guide.pdf'
+    ];
 
-    const pdfResp = await fetch(sourceUrl);
-    if (!pdfResp.ok) {
-      console.error('Static PDF fetch failed:', sourceUrl, pdfResp.status);
-      return res.status(500).send('PDF file missing on server');
+    let fileBuffer = null;
+    let chosenPath = null;
+
+    for (const relPath of candidates) {
+      try {
+        const abs = resolve(process.cwd(), relPath);
+        fileBuffer = await readFile(abs);
+        chosenPath = abs;
+        break;
+      } catch (_) {
+        // try next path
+      }
     }
 
-    const fileBuffer = Buffer.from(await pdfResp.arrayBuffer());
+    if (!fileBuffer) {
+      console.error('PDF file missing on server; tried:', candidates, 'cwd:', process.cwd());
+      return res.status(500).send('PDF file missing on server');
+    }
 
     await fetch(`${SUPABASE_URL}/rest/v1/pdf_access_tokens?id=eq.${row.id}`, {
       method: 'PATCH',
@@ -58,6 +71,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({ used_at: new Date().toISOString() })
     });
 
+    console.log('Serving protected PDF from:', chosenPath);
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename="${FREE_PDF_ATTACHMENT_FILENAME || 'openclaw-quick-fix-guide.pdf'}"`);
     return res.status(200).send(fileBuffer);

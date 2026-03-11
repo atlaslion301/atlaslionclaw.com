@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/free-download.js": {
+      "includeFiles": "protected-assets/free/openclaw-quick-fix-guide.pdf"
+    }
+  }
+}

@@ -24,7 +24,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({ used_at: new Date().toISOString() })
     });
 
-    const file = await readFile(resolve(process.cwd(), 'public/paid/openclaw-operator-playbook.pdf'));
+    const file = await readFile(resolve(process.cwd(), 'protected-assets/paid/openclaw-operator-playbook.pdf'));
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'attachment; filename="openclaw-operator-playbook.pdf"');
     return res.status(200).send(file);

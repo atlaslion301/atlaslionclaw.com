@@ -2,6 +2,9 @@
   "functions": {
     "api/free-download.js": {
       "includeFiles": "protected-assets/free/openclaw-quick-fix-guide.pdf"
+    },
+    "api/paid-download.js": {
+      "includeFiles": "protected-assets/paid/openclaw-operator-playbook.pdf"
     }
   }
 }

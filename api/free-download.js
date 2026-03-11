@@ -6,7 +6,13 @@ export default async function handler(req, res) {
     const token = String(req.query?.t || '').trim();
     if (!token) return res.status(400).send('Missing token');
 
-    const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, FREE_PDF_ATTACHMENT_PATH, FREE_PDF_ATTACHMENT_FILENAME } = process.env;
+    const {
+      SUPABASE_URL,
+      SUPABASE_SERVICE_ROLE_KEY,
+      FREE_PDF_ATTACHMENT_PATH,
+      FREE_PDF_ATTACHMENT_FILENAME,
+      FREE_PDF_URL
+    } = process.env;
     if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
       return res.status(500).send('Server misconfigured');
     }
@@ -33,6 +39,34 @@ export default async function handler(req, res) {
     if (row.used_at) return res.status(410).send('Link already used');
     if (new Date(row.expires_at).getTime() < Date.now()) return res.status(410).send('Link expired');
 
+    const candidates = [
+      FREE_PDF_ATTACHMENT_PATH,
+      'protected-assets/free/openclaw-quick-fix-guide.pdf',
+      'public/free/openclaw-quick-fix-guide.pdf'
+    ].filter(Boolean);
+
+    let file = null;
+    let chosenPath = null;
+
+    for (const relPath of candidates) {
+      try {
+        const filePath = resolve(process.cwd(), relPath);
+        file = await readFile(filePath);
+        chosenPath = filePath;
+        break;
+      } catch (_) {
+        // try next candidate
+      }
+    }
+
+    if (!file) {
+      if (FREE_PDF_URL) {
+        return res.redirect(302, FREE_PDF_URL);
+      }
+      console.error('Free PDF file not found in candidates:', candidates, 'cwd:', process.cwd());
+      return res.status(500).send('PDF file missing on server');
+    }
+
     await fetch(`${SUPABASE_URL}/rest/v1/pdf_access_tokens?id=eq.${row.id}`, {
       method: 'PATCH',
       headers: {
@@ -43,10 +77,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({ used_at: new Date().toISOString() })
     });
 
-    const relPath = FREE_PDF_ATTACHMENT_PATH || 'protected-assets/free/openclaw-quick-fix-guide.pdf';
-    const filePath = resolve(process.cwd(), relPath);
-    const file = await readFile(filePath);
-
+    console.log('Serving free PDF from:', chosenPath);
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename="${FREE_PDF_ATTACHMENT_FILENAME || 'openclaw-quick-fix-guide.pdf'}"`);
     res.status(200).send(file);

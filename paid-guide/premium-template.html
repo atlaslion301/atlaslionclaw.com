@@ -21,7 +21,6 @@
     .callout{background:#eef4ff; border-left:5px solid #3b82f6; padding:10px 12px; border-radius:8px; margin:10px 0}
     .shot{border:2px dashed #93c5fd;background:#f8fbff;border-radius:10px;padding:12px;margin:10px 0;color:#334155}
     .shot b{color:#0f172a}
-    .shot img{width:100%;margin-top:8px;border:1px solid #c8d6f4;border-radius:8px}
     .issue{border:1px solid #dbe7ff; border-radius:10px; padding:10px 12px; margin:10px 0; background:#fcfdff}
     .mono{font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background:#0f172a; color:#f8fafc; padding:10px; border-radius:8px; font-size:12px; white-space:pre-wrap}
     .footer{margin-top:26px; font-size:11px; color:#5b6b89}
@@ -35,101 +34,81 @@
     <span class="badge">PAID PLAYBOOK</span>
     <h1 style="font-size:42px;margin:10px 0 8px;">OpenClaw Operator Playbook</h1>
     <p style="font-size:18px;opacity:.95">Advanced setup, troubleshooting, hardening, and operations for real-world deployments.</p>
-    <p><strong>Version 1.0</strong> • Last updated: 2026-03-09</p>
+    <p><strong>Version 2.0</strong> • Last updated: 2026-03-12</p>
   </section>
 
-  <h2>1) Beginner Track (Non-Technical How-To)</h2>
-  <div class="callout"><strong>Use this first</strong> if you're setting up OpenClaw for the first time and want plain-English steps.</div>
+  <h2>1. The Autonomous Company Architecture</h2>
+  <p>Stop running a single chatbot. To reach production scale, you need a multi-department company structure running inside your server. We use a strict <strong>5-Stage Pipeline</strong>, where each department operates as an isolated subagent with a specific persona.</p>
+
+  <h3>The Departments</h3>
+  <ul>
+    <li><strong>The Scout (Opportunity):</strong> Trend Researcher. They scrape the web and write the Discovery Brief.</li>
+    <li><strong>The Gatekeeper (Validation):</strong> Reality Checker. They verify technical feasibility before anyone writes a line of code.</li>
+    <li><strong>The Forger (Build):</strong> Rapid Prototyper. They write the actual backend code and scripts.</li>
+    <li><strong>The Megaphone (Growth):</strong> Growth Hacker. They write the marketing copy and viral hooks.</li>
+    <li><strong>The Inspector (QA):</strong> Evidence Collector. They audit both the code from The Forger and the copy from The Megaphone.</li>
+    <li><strong>The Architect (Scale):</strong> DevOps Automator. They deploy the finalized assets to AWS/Cloudflare.</li>
+  </ul>
+
+  <div class="shot">
+    <b>Flow: Pipeline Handoff</b><br/>
+    Opportunity (Idea) ➔ Validation (Approval) ➔ Build/Growth (Execution) ➔ QA (Audit) ➔ Scale (Deployment)
+  </div>
+
+  <h2>2. Multi-Department SOP: The HQ Protocol</h2>
+  <div class="callout"><strong>The Problem:</strong> Subagents go to sleep when they finish a task. Routing to a sleeping agent stalls the pipeline.</div>
+  <p><strong>The Fix (The HQ Protocol):</strong> Never rely on a subagent to stay awake forever.</p>
   <ol>
-    <li>Install OpenClaw and verify with <code>openclaw gateway status</code>.</li>
-    <li>Add one channel token (Discord or Telegram) first.</li>
-    <li>Set allowlist to your own user ID.</li>
-    <li>Restart gateway and send test message.</li>
-    <li>If no response, use the troubleshooting matrix in Section 4.</li>
+    <li>Check subagent status via <code>subagents list</code>.</li>
+    <li>Spawn a <em>fresh</em> worker for each task using <code>sessions_spawn</code>.</li>
+    <li>Give them a strict <strong>5-minute timeout window</strong> (<code>timeoutSeconds: 300</code>) so they have time to think.</li>
   </ol>
-  <p><strong>Success check:</strong> OpenClaw replies consistently in your test channel.</p>
 
-  <div class="shot"><b>Visual 1:</b> OpenClaw setup flow.
-    <img src="../assets/owned/owned-setup-flow.png" alt="Owned setup flow" />
-  </div>
-  <div class="shot"><b>Visual 2:</b> Discord troubleshooting flow.
-    <img src="../assets/owned/owned-discord-flow.png" alt="Owned Discord troubleshooting flow" />
-  </div>
-  <div class="shot"><b>Visual 3:</b> Telegram troubleshooting flow.
-    <img src="../assets/owned/owned-telegram-flow.png" alt="Owned Telegram troubleshooting flow" />
-  </div>
+  <div class="mono">{
+  "runtime": "subagent",
+  "label": "the-forger-build-phase",
+  "runTimeoutSeconds": 300,
+  "task": "You are The Forger. Your persona is Rapid Prototyper. Write the script. Conclude with exactly: 'Build Complete. Handoff to QA.'"
+}</div>
 
-  <h2>2) Incident Workflow (P0–P3)</h2>
-  <div class="callout">Detect → Contain → Diagnose → Fix → Verify → Prevent recurrence</div>
+  <h2>3. Production JSON Configuration Templates</h2>
+  <p>Here is the exact <code>config.json</code> block you need to securely run automated Cron jobs without exposing your main session.</p>
 
-  <h2>3) Full Setup & Provisioning</h2>
+  <div class="mono">{
+  "cron": {
+    "enabled": true,
+    "jobs": [
+      {
+        "id": "daily-memory-compaction",
+        "schedule": "0 20 * * *",
+        "payload": {
+          "kind": "systemEvent",
+          "text": "Reminder: It's time for daily memory compaction."
+        },
+        "sessionTarget": "main"
+      }
+    ]
+  }
+}</div>
+
+  <h2>4. Hardening & Security (P0 Guidelines)</h2>
   <ul>
-    <li>Clean install baseline for stable deployment</li>
-    <li>Secure policy defaults and pair testing</li>
-    <li>Role model for owners/admins/operators</li>
+    <li><strong>Strict Allowlist:</strong> Never use <code>"policy": "open"</code>. Always use <code>"allowlist"</code>.</li>
+    <li><strong>Execution Gating:</strong> Build and Growth must NEVER execute without a ✅ Pass from The Gatekeeper (Validation).</li>
+    <li><strong>S3/CloudFront Delivery:</strong> Do not let agents serve files directly from the host filesystem. Push finalized assets to S3 and use Signed URLs for delivery.</li>
   </ul>
 
-  <h2>4) Advanced Troubleshooting Matrix</h2>
-  <table>
-    <thead><tr><th>Issue</th><th>Primary Checks</th><th>Reference URL</th></tr></thead>
-    <tbody>
-      <tr><td>Discord Routing Fails</td><td>Pairing, allowlists, mention gating, restart checks</td><td>https://docs.openclaw.ai/channels/discord</td></tr>
-      <tr><td>Telegram Group Silence</td><td>Privacy mode, permissions, group policy</td><td>https://docs.openclaw.ai/channels/telegram</td></tr>
-      <tr><td>Gateway Startup Failure</td><td>Schema validation, rollback strategy, doctor run</td><td>https://docs.openclaw.ai/gateway/configuration</td></tr>
-      <tr><td>Cron jobs not firing</td><td>Scheduler status, job enabled, run history</td><td>https://docs.openclaw.ai/</td></tr>
-    </tbody>
-  </table>
-
-  <div class="issue"><h3>Quick Reference Chart</h3><p>Use this matrix to choose the fastest diagnostic path by failure surface (channel, gateway, scheduling, permissions).</p></div>
-
-  <h2>5) Security Hardening</h2>
-  <ul>
-    <li>Allowlist-first policy model</li>
-    <li>Token rotation and leak response</li>
-    <li>Control-surface exposure minimization</li>
-  </ul>
-
-  <h2>6) Cost & Performance</h2>
-  <ul>
-    <li>Batch periodic checks</li>
-    <li>Reduce noisy loops/retries</li>
-    <li>Prioritize incremental data updates</li>
-  </ul>
-
-  <h2>7) Release & Regression Playbook</h2>
-  <p>Pre-release gates, post-release monitoring, and structured regression tracking.</p>
-  <table>
-    <thead><tr><th>Stage</th><th>Checklist</th><th>Owner</th></tr></thead>
-    <tbody>
-      <tr><td>Pre-release</td><td>Config validation, smoke tests, rollback test</td><td>Build + QA</td></tr>
-      <tr><td>Launch</td><td>Core flow checks (DM/group/tool/calls)</td><td>Ops</td></tr>
-      <tr><td>Post-release 24h</td><td>Error watch, incident log, hotfix path</td><td>Ops + QA</td></tr>
-    </tbody>
-  </table>
-
-  <h2>8) Command Reference</h2>
-  <h3>Glossary (Beginner)</h3>
-  <table>
-    <thead><tr><th>Term</th><th>Simple Meaning</th></tr></thead>
-    <tbody>
-      <tr><td>Gateway</td><td>Main OpenClaw service process.</td></tr>
-      <tr><td>Allowlist</td><td>Who is allowed to message the bot.</td></tr>
-      <tr><td>Pairing</td><td>First-time authorization between account and bot.</td></tr>
-      <tr><td>Webhook</td><td>Secure callback URL for payment/event confirmations.</td></tr>
-      <tr><td>Token</td><td>Secret key for connecting services.</td></tr>
-    </tbody>
-  </table>
-  <div class="mono">openclaw gateway status
-openclaw gateway restart
-openclaw doctor
-openclaw doctor --fix
-openclaw status</div>
+  <h2>5. Automated Recovery (Cron Backups)</h2>
+  <div class="shot">
+    <b>Recovery Script: Daily Backup</b><br/>
+    Do not rely on memory alone. Use this exact cron expression inside your host server to backup your OpenClaw brain daily.
+  </div>
+  <div class="mono">0 2 * * * tar -czf /backups/openclaw-$(date +\%F).tar.gz /home/user/.openclaw/workspace/</div>
 
   <div class="cta">
     <strong>Need team rollout support?</strong><br/>
     Get implementation help and latest regression updates at <b>atlaslionclaw.com</b>
   </div>
-  <div class="callout"><strong>For non-technical users:</strong> Always validate one step at a time. If a step fails, don't continue—fix that step first.</div>
 
   <p class="footer">AtlasLionClaw · Paid Operator Content · https://atlaslionclaw.com</p>
 </body>

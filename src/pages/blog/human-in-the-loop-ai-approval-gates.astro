@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="Human-in-the-Loop by Design: Safe AI Automation" description="Learn how to build approval gates and human-in-the-loop workflows to prevent expensive AI agent mistakes in production.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/blog/">← Back to blog</a></p>
+      <h1>Human-in-the-Loop by Design: Approval Gates That Prevent Expensive AI Mistakes</h1>
+
+      <p>Fully autonomous AI agents sound great until they send an incorrect invoice or delete production data. For high-stakes workflows, the goal isn't removing humans—it's moving them to the point of highest leverage.</p>
+
+      <p>This is where <strong>Human-in-the-Loop (HITL)</strong> design and <strong>Approval Gates</strong> become mandatory for production AI.</p>
+
+      <h2>Why Approval Gates Matter</h2>
+      <p>An approval gate pauses an agent's execution right before a critical action. The agent gathers the context, drafts the payload, and waits for a human operator to say "yes" or "no".</p>
+      <ul>
+        <li><strong>Risk mitigation:</strong> Prevents financial loss, brand damage, or data corruption.</li>
+        <li><strong>Operator trust:</strong> Teams adopt AI faster when they know they have the final say.</li>
+        <li><strong>Feedback loops:</strong> Rejected actions train the system (or the prompt) on what went wrong.</li>
+      </ul>
+
+      <h2>Where to Place Approval Gates</h2>
+      <p>You don't need a gate for everything. Focus on these high-risk zones:</p>
+      <ul>
+        <li><strong>Financial transactions:</strong> Issuing refunds, paying vendors, or sending invoices.</li>
+        <li><strong>External communication:</strong> Sending mass emails, publishing social media posts, or replying to angry customers.</li>
+        <li><strong>Destructive actions:</strong> Dropping database tables, deleting user accounts, or modifying infrastructure config.</li>
+      </ul>
+
+      <h2>Building Gates in OpenClaw</h2>
+      <p>In OpenClaw, HITL workflows are built naturally through interactive messaging surfaces (like Discord or Telegram) and secure tool policies.</p>
+      <ol>
+        <li><strong>Drafting phase:</strong> The agent uses tools to assemble the data and propose an action.</li>
+        <li><strong>Interactive prompt:</strong> The agent sends a structured message (e.g., using Discord interactive components) asking for confirmation.</li>
+        <li><strong>Execution phase:</strong> The underlying execution tool is policy-restricted so it can only fire after explicit authorization.</li>
+      </ol>
+
+      <h2>The Takeaway</h2>
+      <p>Treat AI agents like highly capable but junior employees. Let them do the heavy lifting of research and drafting, but put an experienced human at the final approval gate. It’s the safest, fastest way to scale automation in the real world.</p>
+    </article>
+  </main>
+</BaseLayout>

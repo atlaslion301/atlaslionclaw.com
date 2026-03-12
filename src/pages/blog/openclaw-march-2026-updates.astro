@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="What’s New in OpenClaw (March 2026): Reliability Features" description="A roundup of the March 2026 OpenClaw updates focusing on reliability, safer defaults, and tools for production AI automation.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/blog/">← Back to blog</a></p>
+      <h1>What’s New in OpenClaw (March 2026): The Features That Actually Improve Agent Reliability</h1>
+
+      <p>As AI agents move from demos to production, operators care less about flashy features and more about stability. The March 2026 updates to OpenClaw reflect this shift, bringing critical improvements to scheduling, access control, and diagnostic tooling.</p>
+
+      <h2>1. Smarter Scheduling with Enhanced Cron</h2>
+      <p>Scheduled workflows (like daily reports or automated outreach) used to fail silently if an underlying model hit a rate limit. The updated cron system introduces:</p>
+      <ul>
+        <li>Better visibility into run history and queue states.</li>
+        <li>Cleaner separation between <strong>main session events</strong> and <strong>isolated agent turns</strong>.</li>
+        <li>More granular control over payload timeouts and delivery modes.</li>
+      </ul>
+      <p><em>Why it matters:</em> You can now trust your automated background tasks to run—and alert you clearly if they don't.</p>
+
+      <h2>2. Allowlist-First Channel Security</h2>
+      <p>OpenClaw’s posture across messaging platforms (Discord, Telegram, WhatsApp) has tightened. The new default strongly encourages <strong>allowlist mode</strong> for both direct messages and group channels.</p>
+      <ul>
+        <li>Guild-specific user allowlists ensure agents only respond to approved team members.</li>
+        <li>Token resolution is stricter, preventing accidental exposure of admin capabilities.</li>
+      </ul>
+      <p><em>Why it matters:</em> Production agents handling sensitive data require hardened access control by default.</p>
+
+      <h2>3. Configuration Validation and Recovery</h2>
+      <p>The gateway now features much stricter schema validation on startup. If a config file contains malformed data or unknown keys, the gateway halts and provides clear diagnostic paths via the <code>openclaw doctor</code> command.</p>
+      <p><em>Why it matters:</em> Catching config errors at boot prevents runtime crashes and unpredictable agent behavior.</p>
+
+      <h2>Takeaway for Operators</h2>
+      <p>The March updates make OpenClaw a much safer bet for business-critical automation. If you haven't reviewed your cron configurations or channel policies recently, now is the time to apply these hardened defaults.</p>
+    </article>
+  </main>
+</BaseLayout>

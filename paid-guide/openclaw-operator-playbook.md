@@ -1,118 +1,92 @@
-# OpenClaw Operator Playbook (Paid)
+# OpenClaw Operator Playbook (Paid Edition)
 
-**Version:** 1.0  
-**Date:** 2026-03-09  
+**Version:** 2.0  
+**Date:** 2026-03-12  
 **By:** AtlasLionClaw
 
 ---
 
-## 1) Operator Incident Workflow (P0–P3)
-- P0: critical outage/security risk — immediate response
-- P1: major service degradation — same-hour response
-- P2: partial degradation — same-day triage
-- P3: minor/cosmetic — scheduled backlog
+## 1. The Autonomous Company Architecture
 
-### Response Loop
-1. Detect
-2. Contain
-3. Diagnose
-4. Fix
-5. Verify
-6. Prevent recurrence
+Stop running a single chatbot. To reach production scale, you need a multi-department company structure running inside your server. 
 
----
+We use a strict **5-Stage Pipeline**, where each department operates as an isolated subagent with a specific persona. 
 
-## 2) Full Setup & Provisioning Playbook
-
-### Clean Install Baseline
-1. Install OpenClaw and verify CLI health.
-2. Set explicit channel policies (allowlist recommended).
-3. Configure gateway with secure defaults.
-4. Pair test account and run message loop test.
-
-### Team Provisioning
-- Define owner/admin/operator roles
-- Separate test and production channels
-- Maintain allowlist ID registry
+### The Departments (Fictionalized Structure)
+1. **The Scout (Opportunity):** Trend Researcher. They scrape the web and write the Discovery Brief.
+2. **The Gatekeeper (Validation):** Reality Checker. They verify technical feasibility before anyone writes a line of code.
+3. **The Forger (Build):** Rapid Prototyper. They write the actual backend code and scripts.
+4. **The Megaphone (Growth):** Growth Hacker. They write the marketing copy and viral hooks.
+5. **The Inspector (QA):** Evidence Collector. They audit both the code from The Forger and the copy from The Megaphone.
+6. **The Architect (Scale):** DevOps Automator. They deploy the finalized assets to AWS/Cloudflare.
 
 ---
 
-## 3) Advanced Troubleshooting Matrix
+## 2. Multi-Department SOP: The HQ Protocol
 
-## Discord Routing Fails
-- Check pairing status
-- Validate guild-level allowlist users
-- Verify mention gating behavior
-- Restart gateway after policy changes
+**The Problem:** Subagents go to sleep (status: `done`) when they finish a task. If you try to route a message to a sleeping agent, the pipeline stalls.
 
-## Telegram Silent Group Behavior
-- Check privacy mode in BotFather
-- Verify group policy + ID allowlist
-- Confirm bot permissions in group
+**The Fix (The HQ Protocol):**
+Never rely on a subagent to stay awake forever. 
+1. Check subagent status via `subagents list`.
+2. Spawn a *fresh* worker for each task using `sessions_spawn`.
+3. Give them a strict **5-minute timeout window** (`timeoutSeconds: 300`) so they have time to think.
 
-## Gateway Startup Failure
-- Run `openclaw doctor`
-- Validate schema + field types
-- Roll back latest config change if needed
-
-## Session/Agent Misrouting
-- Ensure explicit target (`--agent`, session key)
-- Verify agent allowlists and runtime mode
-
----
-
-## 4) Security Hardening Pack
-- Lock DM/group policy by allowlist
-- Rotate leaked tokens immediately
-- Keep control surfaces private
-- Enforce least privilege for integrations
-- Audit access changes weekly
-
----
-
-## 5) Cost & Performance Controls
-- Batch periodic checks (heartbeat strategy)
-- Keep prompts concise where possible
-- Limit noisy retries and polling loops
-- Use caching and incremental checks
-
----
-
-## 6) Release & Regression Playbook
-
-### Pre-release
-- Validate config in staging
-- Run channel message smoke tests
-- Confirm backup + rollback plan
-
-### Post-release
-- Watch error rates 24h
-- Validate core flows (DM, group, tools)
-- Record regressions with impact score
-
----
-
-## 7) Runbooks & Templates
-- Incident report template
-- Weekly QA scorecard
-- Change approval log
-- Escalation chain map
-
----
-
-## 8) Command Reference
-
-```bash
-openclaw gateway status
-openclaw gateway restart
-openclaw doctor
-openclaw doctor --fix
-openclaw status
+### Copy/Paste Spawn Config
+```json
+{
+  "runtime": "subagent",
+  "label": "the-forger-build-phase",
+  "runTimeoutSeconds": 300,
+  "task": "You are The Forger. Your persona is Rapid Prototyper. Write the backup script. Conclude with exactly: 'Build Complete. Handoff to QA.'"
+}
 ```
 
 ---
 
-## 9) Upgrade Path
-This paid playbook is updated with release regressions and field-tested fixes.
+## 3. Production JSON Configuration Templates
 
-For updates and support: https://atlaslionclaw.com
+Here is the exact `config.json` block you need to securely run automated Cron jobs without exposing your main session.
+
+```json
+{
+  "cron": {
+    "enabled": true,
+    "jobs": [
+      {
+        "id": "daily-memory-compaction",
+        "schedule": "0 20 * * *",
+        "payload": {
+          "kind": "systemEvent",
+          "text": "Reminder: It’s time for daily memory compaction. Refresh STATE.md and promote durable decisions to MEMORY.md."
+        },
+        "sessionTarget": "main"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## 4. Hardening & Security (P0 Guidelines)
+
+When giving agents terminal access, security is not optional. 
+1. **Strict Allowlist:** Never use `"policy": "open"`. Always use `"allowlist"`.
+2. **Execution Gating:** Build and Growth must NEVER execute without a `✅ Pass` from The Gatekeeper (Validation).
+3. **S3/CloudFront Delivery:** Do not let agents serve files directly from the host filesystem. Push finalized assets to S3 and use Signed URLs for delivery.
+
+---
+
+## 5. Automated Recovery (Cron Backups)
+
+Do not rely on memory alone. Use this exact cron expression inside your host server to backup your OpenClaw brain daily:
+
+```bash
+# Backup the OpenClaw workspace every night at 2 AM
+0 2 * * * tar -czf /backups/openclaw-$(date +\%F).tar.gz /home/user/.openclaw/workspace/
+```
+
+---
+
+*Thank you for purchasing the Operator Playbook. Updates to this architecture will be sent directly to your inbox.*

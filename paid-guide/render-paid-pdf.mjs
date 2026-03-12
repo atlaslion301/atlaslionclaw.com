@@ -3,8 +3,8 @@ import { pathToFileURL } from 'url';
 import path from 'path';
 
 const root = process.cwd();
-const htmlPath = path.join(root, 'paid-guide', 'premium-template.html');
-const outPath = path.join(root, 'public', 'paid', 'openclaw-operator-playbook.pdf');
+const htmlPath = path.join(root, 'premium-template.html');
+const outPath = path.join(root, '..', 'public', 'paid', 'openclaw-operator-playbook.pdf');
 
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage();

@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="What Actually Breaks in AI Agent Systems — and How to Operate Around It" description="A practical guide to AI agent reliability: auth failures, stale sessions, fallback model issues, workflow drift, and how operators can reduce breakage in production.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/blog/">← Back to blog</a></p>
+      <h1>What Actually Breaks in AI Agent Systems — and How to Operate Around It</h1>
+
+      <p>AI agent systems rarely fail in the dramatic movie-scene way. They usually fail in smaller, more annoying ways: a token expires, a session goes stale, a fallback model misroutes, a scheduled job silently degrades, or a tool works locally but fails after deploy. Those are the failures that eat time, trust, and revenue.</p>
+
+      <p>If you are running multi-agent workflows, automations, or AI ops pipelines, reliability is not just a model problem. It is an operations problem.</p>
+
+      <h2>1) Auth and environment drift</h2>
+      <p>One of the most common causes of agent failure is inconsistent environment configuration between local, preview, and production. A flow works in development, then breaks after deploy because an env var is missing, scoped to the wrong environment, or attached to the wrong project.</p>
+      <ul>
+        <li>API keys present locally but missing in production</li>
+        <li>Webhook secrets configured in Preview but not Production</li>
+        <li>Service-role keys accidentally expected by client-side code</li>
+      </ul>
+      <p><strong>How to operate around it:</strong> keep a single environment checklist, document every required variable, and verify the exact project context before every production deploy.</p>
+
+      <h2>2) Session lifecycle quirks</h2>
+      <p>Agent sessions are useful until operators assume they are permanent, stable, and always warm. In practice, session state can go idle, get compacted, lose context, or require a fresh spawn depending on the runtime model.</p>
+      <p><strong>How to operate around it:</strong> define session ownership rules, know when to resume versus respawn, and document lifecycle assumptions in your runbooks.</p>
+
+      <h2>3) Fallback model failures</h2>
+      <p>Fallbacks look safe on paper, but they can break in production if credentials, routing, or model naming are inconsistent. Instead of graceful degradation, you get a second failure path.</p>
+      <ul>
+        <li>Primary model rate-limited</li>
+        <li>Fallback configured but missing auth</li>
+        <li>Output shape changes across providers</li>
+      </ul>
+      <p><strong>How to operate around it:</strong> test fallback paths intentionally, not just the happy path. A fallback that has never been exercised is a wish, not a system.</p>
+
+      <h2>4) Stale dev-server or deploy assumptions</h2>
+      <p>Builders often fix the code but forget the runtime. Old dev servers, cached builds, stale routes, and outdated static assets can make a resolved issue look unresolved.</p>
+      <p><strong>How to operate around it:</strong> include a clean rebuild and cache-aware verification step in the QA checklist after every meaningful change.</p>
+
+      <h2>5) Tool boundaries and hidden policy friction</h2>
+      <p>Many AI agent failures are not model failures at all. They happen because the tool can’t execute under current policy, approval was not granted, or a channel capability differs from what the operator expected.</p>
+      <p><strong>How to operate around it:</strong> separate tool availability, approval requirements, and channel capabilities in your docs. Treat these as first-class operational constraints.</p>
+
+      <h2>AI ops best practices that actually help</h2>
+      <ul>
+        <li>Create one golden path and keep it healthy before expanding scope</li>
+        <li>Track success, failure, and delivery events for every core workflow</li>
+        <li>Use approval gates for sensitive actions</li>
+        <li>Run P0 tests on revenue and trust paths first</li>
+        <li>Review incidents weekly across Build, Growth, and QA</li>
+      </ul>
+
+      <h2>GEO and SEO angle: what teams are searching for</h2>
+      <p>This topic aligns with real search behavior around <em>AI agent reliability</em>, <em>agent orchestration failures</em>, <em>AI ops best practices</em>, and <em>multi-agent system debugging</em>. It is also strong for generative engine optimization because it answers a concrete operational question with structured, reusable guidance.</p>
+
+      <h2>Final takeaway</h2>
+      <p>The hardest part of AI operations is not getting an agent to work once. It is getting the system to keep working through auth drift, fallback issues, runtime quirks, and real production mess. The teams that win are the ones that treat these failures as operating conditions, not surprises.</p>
+    </article>
+  </main>
+</BaseLayout>

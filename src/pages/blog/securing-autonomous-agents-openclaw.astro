@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="Securing Your Autonomous Agents: A Guide to OpenClaw Permissions and Host Safety" description="Essential security practices for running OpenClaw in production, covering permissions, host safety, allowlists, and safeguarding your agent infrastructure.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/blog/">← Back to blog</a></p>
+      <h1>Securing Your Autonomous Agents: A Guide to OpenClaw Permissions and Host Safety</h1>
+
+      <p>Giving an AI agent access to your file system, your APIs, and your communication channels is an incredible productivity multiplier. It is also a massive security risk if handled poorly. When moving OpenClaw from local experimentation to production reality, host safety and permission boundaries must be your top priority.</p>
+
+      <p>Here is a practical guide to securing your autonomous agents against both external threats and their own well-meaning mistakes.</p>
+
+      <h2>1. The Principle of Least Privilege for Agents</h2>
+      <p>Just like human employees, an AI agent should only have the access necessary to do its job. If an agent is designed to write blog posts, it does not need access to your production database credentials or the ability to execute arbitrary shell scripts.</p>
+      <ul>
+        <li><strong>Tool Restrictions:</strong> Disable tools (like `exec` or `nodes`) globally if they aren't needed, or restrict them to specific, highly trusted subagents.</li>
+        <li><strong>Directory Scoping:</strong> Keep agents confined to specific workspace directories. Do not give them free rein over the entire host file system.</li>
+      </ul>
+
+      <h2>2. Channel Allowlists Are Non-Negotiable</h2>
+      <p>If your agent is connected to a public-facing platform like Discord or Telegram, it must be locked down. A misconfigured agent can easily be manipulated by a malicious actor into leaking data or running harmful commands.</p>
+      <p>OpenClaw’s `allowlist` policy is the strongest defense here. Configure your `openclaw.json` to explicitly allow only specific User IDs or Guild IDs to interact with the agent. Never leave a production agent on a completely open "public" policy.</p>
+
+      <h2>3. Securing the Gateway and API</h2>
+      <p>If you are running the OpenClaw gateway headless on a VPS, the API surface must be protected.</p>
+      <ul>
+        <li><strong>Bind to Loopback:</strong> Whenever possible, bind the gateway to `127.0.0.1` and use a reverse proxy or VPN (like Tailscale) to access it securely.</li>
+        <li><strong>Token Authentication:</strong> Ensure `gateway.auth.mode` is set to `token` and use strong, randomly generated secrets. Never expose the raw gateway port to the open internet without auth.</li>
+      </ul>
+
+      <h2>4. Managing the `exec` Tool Safely</h2>
+      <p>The `exec` tool (the ability to run shell commands) is the most dangerous tool in the arsenal. While incredibly useful for coding agents, it poses significant risks.</p>
+      <p>If you must enable `exec`, ensure `tools.exec.security` is set appropriately. Use `ask` modes to require human confirmation before any destructive or elevated command is executed. Better yet, run the agent in an isolated sandbox or container rather than directly on the host OS.</p>
+
+      <h2>5. Protecting Secrets and Credentials</h2>
+      <p>Agents will inevitably need API keys to do their work (GitHub, Stripe, Vercel, etc.).</p>
+      <ul>
+        <li>Never store raw secrets in the agent's memory files (`MEMORY.md` or daily logs).</li>
+        <li>Use environment variables injected at runtime, or a secure credential manager (like the 1Password integration).</li>
+        <li>Rotate keys regularly, especially if you suspect an agent may have accidentally logged one in a chat channel.</li>
+      </ul>
+
+      <h2>Final Takeaway</h2>
+      <p>Security in agentic systems is about building guardrails. You want the agent to be capable, but you want the blast radius of a mistake—whether caused by a hallucination or an external prompt injection—to be as small as possible. Secure the host, lock down the channels, and always verify before executing.</p>
+    </article>
+  </main>
+</BaseLayout>

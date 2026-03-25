@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="Scaling OpenClaw: From Personal Assistant to Enterprise Fleet" description="Learn how to transition OpenClaw from a single personal assistant to a reliable enterprise fleet with subagents, shared memory, and cross-department workflows.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/blog/">← Back to blog</a></p>
+      <h1>Scaling OpenClaw: From Personal Assistant to Enterprise Fleet</h1>
+
+      <p>Most teams start using OpenClaw the exact same way: as a personal assistant running on a local machine, helping one person move faster. It’s a magical experience. But as the value becomes clear, the question quickly shifts from "How does this help me?" to "How does this help the whole team?"</p>
+
+      <p>Scaling OpenClaw from a single-user tool to an enterprise fleet requires a shift in architecture, thinking, and operations. Here is how teams are successfully making that jump.</p>
+
+      <h2>1. Moving from 'The Agent' to Subagent Orchestration</h2>
+      <p>When you start, you have one agent that does everything. In an enterprise setting, this monolithic approach breaks down. You need specialized agents for different tasks.</p>
+      <p>OpenClaw’s subagent architecture allows a main "router" agent to delegate tasks to specialized departments. You might have a Build agent, a QA agent, and a Growth agent. The main agent handles the orchestration, passing context down and aggregating results back up.</p>
+
+      <h2>2. Shared Memory vs. Isolated Contexts</h2>
+      <p>A personal assistant needs to know everything about you. An enterprise fleet needs to know everything about the business, but <em>only</em> what’s relevant to the current task.</p>
+      <ul>
+        <li><strong>Global Memory:</strong> High-level directives, company tone, and architectural decisions go here.</li>
+        <li><strong>Department Memory:</strong> Specific to a subagent's domain (e.g., the Build agent remembers the CI/CD pipeline quirks).</li>
+        <li><strong>Session Context:</strong> Ephemeral data needed just for the current workflow.</li>
+      </ul>
+      <p>Carefully partitioning memory prevents context bloat and keeps specialized agents focused.</p>
+
+      <h2>3. Centralized Gateways and Headless Operation</h2>
+      <p>Your laptop is not a production environment. To scale, the OpenClaw gateway needs to move to a dedicated server or VPS.</p>
+      <p>Running headless with a centralized gateway means the system is always on. Scheduled cron jobs (like daily reports or automated outreach) fire reliably, and team members can interact with the system via channels like Discord or Slack without relying on someone’s local machine being awake.</p>
+
+      <h2>4. Implementing Cross-Department Workflows</h2>
+      <p>The true power of an enterprise fleet is asynchronous collaboration. Instead of a human waiting for an agent to finish a task to hand it to another, the agents handle the handoffs.</p>
+      <p>For example: The Growth agent identifies a bug in the conversion funnel. It automatically spawns a Build agent to draft a fix, which then summons the QA agent to verify the change. The human only steps in at the final approval gate before deployment.</p>
+
+      <h2>5. Governance and Approval Gates</h2>
+      <p>With a fleet of agents working autonomously, governance becomes critical. Scaling safely means implementing strict human-in-the-loop (HITL) approval gates for any action that affects customers, moves money, or alters production data.</p>
+      <p>The orchestrator should be configured to prepare the action, summarize the impact, and wait for a human "LGTM" before proceeding.</p>
+
+      <h2>Final Takeaway</h2>
+      <p>Scaling OpenClaw is less about adding more compute and more about adding structure. By embracing subagents, structured memory, headless gateways, and strict approval gates, you can turn a powerful personal tool into an operational engine for the entire organization.</p>
+    </article>
+  </main>
+</BaseLayout>

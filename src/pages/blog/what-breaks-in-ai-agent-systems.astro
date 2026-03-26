@@ -2,12 +2,12 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NavBar from '../../components/NavBar.astro';
 ---
-<BaseLayout title="What Actually Breaks in AI Agent Systems — and How to Operate Around It" description="A practical guide to AI agent reliability: auth failures, stale sessions, fallback model issues, workflow drift, and how operators can reduce breakage in production.">
+<BaseLayout title="What Breaks in Real AI Agent Systems (and How OpenClaw-Style Safeguards Reduce Risk)" description="A practical guide to real AI agent failure modes and the OpenClaw-style safeguards that reduce operational risk in production.">
   <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
   <main class="container">
     <article class="content-shell">
       <p><a href="/blog/">← Back to blog</a></p>
-      <h1>What Actually Breaks in AI Agent Systems — and How to Operate Around It</h1>
+      <h1>What Breaks in Real AI Agent Systems (and How OpenClaw-Style Safeguards Reduce Risk)</h1>
 
       <p>AI agent systems rarely fail in the dramatic movie-scene way. They usually fail in smaller, more annoying ways: a token expires, a session goes stale, a fallback model misroutes, a scheduled job silently degrades, or a tool works locally but fails after deploy. Those are the failures that eat time, trust, and revenue.</p>
 
@@ -43,7 +43,7 @@ import NavBar from '../../components/NavBar.astro';
       <p>Many AI agent failures are not model failures at all. They happen because the tool can’t execute under current policy, approval was not granted, or a channel capability differs from what the operator expected.</p>
       <p><strong>How to operate around it:</strong> separate tool availability, approval requirements, and channel capabilities in your docs. Treat these as first-class operational constraints.</p>
 
-      <h2>AI ops best practices that actually help</h2>
+      <h2>OpenClaw-style safeguards that reduce real operational risk</h2>
       <ul>
         <li>Create one golden path and keep it healthy before expanding scope</li>
         <li>Track success, failure, and delivery events for every core workflow</li>

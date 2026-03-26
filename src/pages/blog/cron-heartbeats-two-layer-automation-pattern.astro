@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="Cron + Heartbeats: The Two-Layer Automation Pattern for Reliable Agent Operations" description="How to combine precise cron scheduling with heartbeat loops to run reliable AI agent operations in production.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/blog/">← Back to blog</a></p>
+      <h1>Cron + Heartbeats: The Two-Layer Automation Pattern for Reliable Agent Operations</h1>
+
+      <p>Most teams use either cron jobs or a polling loop and then wonder why reliability still feels shaky. Cron gives precision. Heartbeats give awareness. The strongest operations setups use both.</p>
+
+      <p>This two-layer pattern is simple: schedule exact tasks with cron, then use heartbeat checks to detect drift, verify outcomes, and catch anything the schedule alone can’t see.</p>
+
+      <h2>Layer 1: Cron for precision and guarantees</h2>
+      <p>Use cron when timing matters: daily reports, morning reminders, weekly audits, or any workflow with a strict cadence.</p>
+      <ul>
+        <li>Run exactly at known times</li>
+        <li>Keep payloads narrow and task-specific</li>
+        <li>Prefer isolated runs for heavy jobs</li>
+      </ul>
+      <p>Cron is your deterministic execution layer. It answers: <em>did we run the right thing at the right time?</em></p>
+
+      <h2>Layer 2: Heartbeats for operational awareness</h2>
+      <p>Heartbeats are your lightweight supervisory loop. They are not for exact timing; they are for context-aware checks across systems.</p>
+      <ul>
+        <li>Batch multiple checks in one pass (inbox, calendar, notifications)</li>
+        <li>Avoid noisy alerts when nothing changed</li>
+        <li>Escalate only when a condition crosses a threshold</li>
+      </ul>
+      <p>Heartbeats answer: <em>is the system still healthy and does anything need attention now?</em></p>
+
+      <h2>Why one layer alone is not enough</h2>
+      <p>Cron-only setups miss context and often fail silently after edge-case changes. Heartbeat-only setups drift on timing and can become noisy. Together, they provide reliability plus adaptability.</p>
+
+      <h2>A practical pattern for OpenClaw-style operations</h2>
+      <ol>
+        <li><strong>Put fixed-time tasks in cron:</strong> reminders, end-of-day summaries, recurring sync jobs.</li>
+        <li><strong>Use heartbeat for cross-cutting checks:</strong> pending approvals, missed deliveries, stale sessions.</li>
+        <li><strong>Keep alerts stateful:</strong> notify only on new or meaningful change.</li>
+        <li><strong>Define ownership:</strong> each check has an operator, expected output, and escalation path.</li>
+      </ol>
+
+      <h2>Failure modes this pattern prevents</h2>
+      <ul>
+        <li><strong>Silent cron failure:</strong> heartbeat detects missing expected output.</li>
+        <li><strong>Alert fatigue:</strong> cron remains precise while heartbeat suppresses repeat noise.</li>
+        <li><strong>Context blindness:</strong> heartbeat adds channel and workflow awareness.</li>
+        <li><strong>Operational drift:</strong> periodic health checks catch stale configs and idle pipelines.</li>
+      </ul>
+
+      <h2>Final takeaway</h2>
+      <p>If you want reliable AI agent operations, stop choosing between cron and heartbeat. Use cron for execution guarantees and heartbeat for live supervision. The combo is what makes automations dependable in real production environments.</p>
+    </article>
+  </main>
+</BaseLayout>

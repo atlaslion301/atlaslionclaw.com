@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="AI Skills" description="Explore AI skill pages for OpenClaw and Claude Code. Learn when to use each skill in real production workflows.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/use-cases/', label: 'Use Cases' }, { href: '/blog/', label: 'Blog' }]} />
+
+  <main class="container">
+    <section class="content-shell blog-shell">
+      <h1>AI Skills</h1>
+      <p class="lead">Dedicated pages for each core skill in your AtlasLionClaw stack.</p>
+
+      <div class="grid two">
+        <a class="post-card" href="/ai-skills/openclaw/">
+          <h4>OpenClaw</h4>
+          <p>Orchestrate agents, schedule work, route messages, and run durable operations across channels.</p>
+        </a>
+        <a class="post-card" href="/ai-skills/claude-code/">
+          <h4>Claude Code</h4>
+          <p>Use Claude Code for implementation, deep refactors, architecture cleanup, and code review loops.</p>
+        </a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

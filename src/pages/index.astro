@@ -3,26 +3,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import NavBar from '../components/NavBar.astro';
 import Accordion from '../components/Accordion.astro';
 
-const useCaseItems = [
+const spotlightItems = [
   {
-    question: 'Cron Orchestration',
-    answer: 'Schedule reliable agent loops. Never miss a background execution.',
-    href: '/use-cases/cron-orchestration/'
+    question: 'AI Skills Library',
+    answer: 'Explore tool-specific pages for OpenClaw, Claude Code, and coding workflows.',
+    href: '/ai-skills/'
   },
   {
-    question: 'Multi-Department Workflows',
-    answer: 'Gate execution across specialized agents to ensure quality.',
-    href: '/use-cases/multi-department-workflows/'
+    question: 'Use Cases Library',
+    answer: 'See outcome-focused workflows for operations, automation, and team execution.',
+    href: '/use-cases/'
   },
   {
-    question: 'Secure Chat Ops',
-    answer: 'Command agents directly from Discord or Telegram with strict RBAC.',
-    href: '/use-cases/secure-chat-ops/'
+    question: 'OpenClaw Skill Page',
+    answer: 'Learn where OpenClaw shines: orchestration, memory, channel ops, and reliability.',
+    href: '/ai-skills/openclaw/'
   },
   {
-    question: 'Durable Memory',
-    answer: 'Agents that remember decisions and compound knowledge over time.',
-    href: '/use-cases/durable-memory/'
+    question: 'Claude Code Skill Page',
+    answer: 'Understand when to use Claude Code for implementation, refactors, and review loops.',
+    href: '/ai-skills/claude-code/'
   }
 ];
 
@@ -95,7 +95,7 @@ const pageSchema = {
 };
 ---
 <BaseLayout title="OpenClaw Setup & Troubleshooting Guide (Free + Paid Playbook)" description="Fix OpenClaw setup and troubleshooting issues faster. Download the free Quick Fix PDF and join the advanced Operator Playbook waitlist." schema={pageSchema}>
-  <NavBar links={[{ href: '/blog/', label: 'Blog' }, { href: '#free', label: 'Free PDF' }, { href: '#paid', label: 'Paid Playbook' }]} />
+  <NavBar links={[{ href: '/blog/', label: 'Blog' }, { href: '/ai-skills/', label: 'AI Skills' }, { href: '/use-cases/', label: 'Use Cases' }, { href: '#free', label: 'Free PDF' }, { href: '#paid', label: 'Paid Playbook' }]} />
 
   <section class="hero">
     <div class="container hero-grid">
@@ -193,17 +193,18 @@ const pageSchema = {
     </section>
 
     <section class="section">
-      <h2>OpenClaw Skills & Use Cases</h2>
+      <h2>AI Skills + Use Cases</h2>
       <div class="grid two">
-        {useCaseItems.map((item) => (
+        {spotlightItems.map((item) => (
           <a class="post-card" href={item.href}>
             <h4>{item.question}</h4>
             <p>{item.answer}</p>
           </a>
         ))}
       </div>
-      <div style="margin-top: 16px;">
-        <a href="/use-cases/" class="btn btn-ghost">View all Use Cases</a>
+      <div style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="/ai-skills/" class="btn btn-ghost">Browse AI Skills</a>
+        <a href="/use-cases/" class="btn btn-ghost">Browse Use Cases</a>
       </div>
     </section>
 

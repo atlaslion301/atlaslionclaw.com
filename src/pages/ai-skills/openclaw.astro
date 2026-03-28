@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="OpenClaw Skill" description="OpenClaw for production AI operations: orchestration, memory, scheduling, and secure channel workflows.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/ai-skills/', label: 'AI Skills' }, { href: '/use-cases/', label: 'Use Cases' }, { href: '/blog/', label: 'Blog' }]} />
+
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/ai-skills/">← Back to AI Skills</a></p>
+      <h1>OpenClaw</h1>
+      <p class="lead">The control plane for dependable AI operations, not just one-off chat prompts.</p>
+
+      <h2>What it is</h2>
+      <p>OpenClaw is an orchestration layer for AI assistants and agents. It connects channels, tools, scheduling, and memory so your workflows execute repeatedly with guardrails.</p>
+
+      <h2>Best use cases</h2>
+      <ul>
+        <li>Scheduled operations with cron jobs and reminders</li>
+        <li>Cross-channel command + status workflows</li>
+        <li>Multi-agent task routing and oversight</li>
+        <li>Durable memory for long-running projects</li>
+      </ul>
+
+      <h2>Why teams use it</h2>
+      <p>Teams adopt OpenClaw when they want real reliability: repeatable runs, structured approvals, and workflows that survive context resets.</p>
+    </article>
+  </main>
+</BaseLayout>

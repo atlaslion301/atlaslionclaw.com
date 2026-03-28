@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="Claude Code Skill" description="Claude Code for build velocity: implementation, refactoring, and engineering throughput in focused coding sessions.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/ai-skills/', label: 'AI Skills' }, { href: '/use-cases/', label: 'Use Cases' }, { href: '/blog/', label: 'Blog' }]} />
+
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/ai-skills/">← Back to AI Skills</a></p>
+      <h1>Claude Code</h1>
+      <p class="lead">A focused coding specialist for implementation and code quality acceleration.</p>
+
+      <h2>What it is</h2>
+      <p>Claude Code is a coding-oriented agent workflow used for writing features, improving architecture, and tackling larger refactors with strong contextual reasoning.</p>
+
+      <h2>Best use cases</h2>
+      <ul>
+        <li>Shipping new features with clear acceptance criteria</li>
+        <li>Large-scale refactors that need careful reasoning</li>
+        <li>Codebase cleanup and consistency improvements</li>
+        <li>Reviewing pull requests and resolving feedback faster</li>
+      </ul>
+
+      <h2>Why teams use it</h2>
+      <p>Teams use Claude Code to increase engineering throughput while keeping quality high, especially when tasks are too big for one-shot edits.</p>
+    </article>
+  </main>
+</BaseLayout>

@@ -24,9 +24,22 @@ export default async function handler(req, res) {
       body: JSON.stringify({ used_at: new Date().toISOString() })
     });
 
-    const file = await readFile(resolve(process.cwd(), 'protected-assets/paid/openclaw-operator-playbook.pdf'));
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename="openclaw-operator-playbook.pdf"');
+    const item = String(req.query?.item || 'skills').trim().toLowerCase();
+    const map = {
+      skills: {
+        path: 'protected-assets/paid/ai-skills-bundle.md',
+        filename: 'ai-skills-bundle.md'
+      },
+      'use-cases': {
+        path: 'protected-assets/paid/use-cases-bundle.md',
+        filename: 'use-cases-bundle.md'
+      }
+    };
+    const target = map[item] || map.skills;
+
+    const file = await readFile(resolve(process.cwd(), target.path));
+    res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="${target.filename}"`);
     return res.status(200).send(file);
   } catch {
     return res.status(500).send('Download failed');

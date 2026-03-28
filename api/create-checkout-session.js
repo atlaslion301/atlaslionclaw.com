@@ -4,15 +4,35 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'Method not allowed' });
 
   try {
-    const { email } = req.body || {};
+    const { email, accessToken } = req.body || {};
     const cleanEmail = String(email || '').trim().toLowerCase();
+    const token = String(accessToken || '').trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
       return res.status(400).json({ ok: false, error: 'Invalid email' });
     }
 
-    const { STRIPE_SECRET_KEY, STRIPE_PRICE_ID, PUBLIC_BASE_URL } = process.env;
-    if (!STRIPE_SECRET_KEY || !STRIPE_PRICE_ID || !PUBLIC_BASE_URL) {
-      return res.status(500).json({ ok: false, error: 'Stripe env vars missing' });
+    const { STRIPE_SECRET_KEY, STRIPE_PRICE_ID, PUBLIC_BASE_URL, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = process.env;
+    if (!STRIPE_SECRET_KEY || !STRIPE_PRICE_ID || !PUBLIC_BASE_URL || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+      return res.status(500).json({ ok: false, error: 'Server env vars missing' });
+    }
+
+    if (!token) {
+      return res.status(401).json({ ok: false, error: 'Login required before checkout' });
+    }
+
+    const authResp = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+      headers: {
+        apikey: SUPABASE_SERVICE_ROLE_KEY,
+        Authorization: `Bearer ${token}`
+      }
+    });
+    if (!authResp.ok) {
+      return res.status(401).json({ ok: false, error: 'Invalid or expired login session' });
+    }
+    const user = await authResp.json();
+    const userEmail = String(user?.email || '').trim().toLowerCase();
+    if (!userEmail || userEmail !== cleanEmail) {
+      return res.status(403).json({ ok: false, error: 'Checkout email must match logged-in user' });
     }
 
     const stripe = new Stripe(STRIPE_SECRET_KEY);

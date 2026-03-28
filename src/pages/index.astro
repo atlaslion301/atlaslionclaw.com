@@ -102,10 +102,10 @@ const pageSchema = {
       <div>
         <p class="eyebrow">OPENCLAW OPERATOR GUIDES</p>
         <h1>Elegant setup and troubleshooting guides for OpenClaw builders.</h1>
-        <p class="lead">Ship faster, debug less. Get the free quick-fix guide and join the advanced playbook waitlist.</p>
+        <p class="lead">Ship faster, debug less. Preview free teasers, then login + pay to unlock full Markdown bundles for AI Skills and Use Cases.</p>
         <div class="cta-row">
-          <a href="#free" class="btn">Get Free PDF</a>
-          <a href="#paid" class="btn btn-ghost">Join Waitlist</a>
+          <a href="#free" class="btn">View Teasers</a>
+          <a href="#paid" class="btn btn-ghost">Login + Unlock Bundles</a>
         </div>
       </div>
       <aside class="hero-card">
@@ -122,46 +122,41 @@ const pageSchema = {
 
   <main class="container">
     <section class="section" id="free">
-      <h2>Choose your guide</h2>
+      <h2>Teasers + Premium Markdown Downloads</h2>
       <div class="grid two">
         <article class="card">
-          <p class="tag">FREE</p>
-          <h3>OpenClaw Quick Fix Guide</h3>
+          <p class="tag">FREE TEASERS</p>
+          <h3>Preview Skills + Use Cases</h3>
           <ul>
-            <li>Install → configure → pair workflow</li>
-            <li>Top 10 issue fixes</li>
-            <li>Copy/paste command set</li>
+            <li>OpenClaw + Claude Code teaser pages</li>
+            <li>Outcome-focused use case previews</li>
+            <li>Sample markdown teaser files</li>
           </ul>
-          <form class="form" id="freeForm">
-            <label>Email</label>
-            <input type="email" name="email" required placeholder="you@example.com" />
-            <div class="hp-wrap" aria-hidden="true">
-              <label>Leave this field empty</label>
-              <input type="text" name="company_website" tabindex="-1" autocomplete="off" />
-            </div>
-            <button type="submit" class="btn">Send me the free PDF</button>
-          </form>
-          <p class="note" id="freeMsg"></p>
+          <div class="cta-row" style="margin-top: 12px;">
+            <a class="btn btn-ghost" href="/ai-skills/">Explore AI Skills Teasers</a>
+            <a class="btn btn-ghost" href="/use-cases/">Explore Use Cases Teasers</a>
+          </div>
+          <p class="note" id="freeMsg">Teasers are free. Full markdown bundles require login + payment.</p>
         </article>
 
         <article class="card" id="paid">
-          <p class="tag">PAID</p>
-          <h3>OpenClaw Operator Playbook</h3>
+          <p class="tag">PREMIUM</p>
+          <h3>Markdown Bundles: Skills + Use Cases</h3>
           <ul>
-            <li>Deep root-cause troubleshooting</li>
-            <li>Team setup + provisioning checklists</li>
-            <li>Release/regression watch workflows</li>
+            <li>Downloadable <code>.md</code> AI Skills bundle</li>
+            <li>Downloadable <code>.md</code> Use Cases bundle</li>
+            <li>Secure one-time delivery after checkout</li>
           </ul>
           <form class="form" id="paidForm">
-            <label>Email</label>
-            <input type="email" name="email" required placeholder="you@example.com" />
+            <label>Account email</label>
+            <input type="email" name="email" required placeholder="login required" />
             <div class="hp-wrap" aria-hidden="true">
               <label>Leave this field empty</label>
               <input type="text" name="company_website" tabindex="-1" autocomplete="off" />
             </div>
-            <button type="submit" class="btn btn-dark">Join waitlist</button>
+            <button type="submit" class="btn btn-dark">Login + Pay to Download</button>
           </form>
-          <p class="note" id="paidMsg"></p>
+          <p class="note" id="paidMsg">You must be logged in before checkout. We verify login identity before payment.</p>
         </article>
       </div>
     </section>

@@ -49,15 +49,16 @@ export default async function handler(req, res) {
 
       if (RESEND_API_KEY && FREE_PDF_FROM_EMAIL) {
         const base = PUBLIC_BASE_URL.replace(/\/$/, '');
-        const secureUrl = `${base}/api/paid-download?t=${token}`;
+        const skillsUrl = `${base}/api/paid-download?t=${token}&item=skills`;
+        const useCasesUrl = `${base}/api/paid-download?t=${token}&item=use-cases`;
         await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${RESEND_API_KEY}` },
           body: JSON.stringify({
             from: FREE_PDF_FROM_EMAIL,
             to: [email],
-            subject: 'Your OpenClaw Operator Playbook (Paid)',
-            html: `<p>Payment received ✅</p><p>Download your paid playbook here (short-lived, one-time): <a href="${secureUrl}">${secureUrl}</a></p>`
+            subject: 'Your AtlasLionClaw Markdown Bundles',
+            html: `<p>Payment received ✅</p><p>Your one-time secure markdown downloads:</p><ul><li>AI Skills Bundle: <a href="${skillsUrl}">${skillsUrl}</a></li><li>Use Cases Bundle: <a href="${useCasesUrl}">${useCasesUrl}</a></li></ul><p>These links expire and can be used once.</p>`
           })
         });
       }

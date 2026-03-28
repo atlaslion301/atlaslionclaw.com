@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.astro';
+---
+<BaseLayout title="Login" description="Login required before purchasing premium markdown bundles.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/ai-skills/', label: 'AI Skills' }, { href: '/use-cases/', label: 'Use Cases' }]} />
+
+  <main class="container">
+    <section class="content-shell" style="max-width: 640px; margin: 0 auto;">
+      <h1>Login to Continue</h1>
+      <p class="lead">Use your email to receive a magic login link. After login, return and complete payment to unlock markdown downloads.</p>
+
+      <form id="loginForm" class="form">
+        <label>Email</label>
+        <input id="email" type="email" required placeholder="you@example.com" />
+        <button type="submit" class="btn">Send magic link</button>
+      </form>
+      <p class="note" id="loginMsg"></p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script is:inline>
+    const msg = document.getElementById('loginMsg');
+    const form = document.getElementById('loginForm');
+    const email = document.getElementById('email');
+
+    const SUPABASE_URL = 'https://kanderhmsvibtduhpsir.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthbmRlcmhtc3ZpYnRkdWhwc2lyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTQ1NDQsImV4cCI6MjA4ODY3MDU0NH0.wlJq3rNNwyuqCiTbUd2SKk-sDgFFl-wPmfI2m4hLQIk';
+
+    if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+      msg.textContent = 'Login is not configured yet. Missing Supabase env vars.';
+    } else {
+      const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        msg.textContent = 'Sending magic link...';
+        const redirectTo = `${window.location.origin}/`;
+        const { error } = await client.auth.signInWithOtp({
+          email: email.value.trim(),
+          options: { emailRedirectTo: redirectTo }
+        });
+        msg.textContent = error ? `Error: ${error.message}` : 'Magic link sent. Open your email, then return to complete checkout.';
+      });
+    }
+  </script>
+</BaseLayout>

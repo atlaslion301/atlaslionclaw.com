@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="From Topic Approval to Publish: The Astro + OpenClaw Content Pipeline" description="How we take an approved topic from brief to optimized publish on atlaslionclaw.com using Astro, OpenClaw, and a repeatable QA checklist.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/blog/">← Back to blog</a></p>
+      <h1>From Topic Approval to Publish: The Astro + OpenClaw Content Pipeline</h1>
+
+      <p>This is the operating playbook we use to move from an approved topic to a published, optimized post on atlaslionclaw.com. It keeps drafts, metadata, linking, and deployment tight so nothing slips between ideas and production.</p>
+
+      <h2>1) Topic approval → brief</h2>
+      <ul>
+        <li><strong>Decide the slug early:</strong> pick a concise, intent-aligned slug (e.g., <code>/blog/openclaw-approval-gates-playbook/</code>).</li>
+        <li><strong>Write a 5-line brief:</strong> audience, promise, primary keyword/intent, POV, and 3 key takeaways.</li>
+        <li><strong>Assign funnel stage:</strong> TOFU/MOFU/BOFU to guide CTAs and internal links.</li>
+      </ul>
+
+      <h2>2) Draft in markdown</h2>
+      <ul>
+        <li>Draft in <code>/content-drafts/*.md</code> (or long-form in <code>/home/atlaslion/.openclaw/workspace/blog-drafts.md</code>).</li>
+        <li>Structure for skim: H2/H3 outline, bullets, short paragraphs, and 1–2 checklists.</li>
+        <li>Identify 2–3 internal links you will add (anchor text that matches the value). Good targets: <a href="/blog/openclaw-reliable-scheduled-workflows/">reliable scheduled workflows</a>, <a href="/blog/cron-heartbeats-two-layer-automation-pattern/">cron + heartbeats pattern</a>, <a href="/blog/openclaw-setup-checklist/">setup checklist</a>.</li>
+      </ul>
+
+      <h2>3) Build the Astro post</h2>
+      <ul>
+        <li>Copy a similar post from <code>src/pages/blog/</code> and rename it to your slug (e.g., <code>from-topic-approval-to-publish-astro-openclaw-content-pipeline.astro</code>).</li>
+        <li>Set <code>&lt;BaseLayout title=... description=...&gt;</code> with a unique title tag (50–60 chars) and meta description (120–155 chars).</li>
+        <li>Use a single H1, then H2/H3 for the outline. Keep the back-link to the blog index.</li>
+        <li>Add a short intro paragraph before the first H2 to frame the value.</li>
+      </ul>
+
+      <h2>4) Optimize for SEO + conversion</h2>
+      <ul>
+        <li><strong>Internal links:</strong> Add 2–3 contextual links out; add 1–2 inbound links from related posts where relevant.</li>
+        <li><strong>CTA placement:</strong> End with a CTA to a BOFU resource (e.g., <a href="/blog/openclaw-setup-checklist/">OpenClaw Setup Checklist</a> or <a href="/blog/openclaw-security-hardening-2026/">Security Hardening</a>).</li>
+        <li><strong>Readability:</strong> Keep paragraphs short; prefer bullets and checklists.</li>
+        <li><strong>Images (optional):</strong> Place assets under <code>/public/</code> and reference with absolute paths; always include descriptive alt text.</li>
+      </ul>
+
+      <h2>5) QA before publishing</h2>
+      <ul>
+        <li>Run <code>npm run build</code> to ensure the Astro build passes.</li>
+        <li>Check internal links for 200s; confirm the back-link works.</li>
+        <li>If the post references forms/CTAs, sanity-check the free PDF or checkout flows after deploy.</li>
+      </ul>
+
+      <h2>6) Publish</h2>
+      <ul>
+        <li>Add the post card to <code>src/pages/blog/index.astro</code> (title + 1–2 line summary).</li>
+        <li>Update <code>public/sitemap.xml</code> with the new URL: <code>https://atlaslionclaw.com/blog/&lt;slug&gt;/</code>.</li>
+        <li>Deploy via Vercel. After deploy, verify live URLs: home, <code>/blog/</code>, and the new post.</li>
+        <li>In Google Search Console: resubmit the sitemap and request indexing for the new post.</li>
+      </ul>
+
+      <h2>7) Measure and iterate</h2>
+      <ul>
+        <li>Track lead capture (free vs paid) by checking Supabase <code>public.leads</code> and Stripe checkout completions.</li>
+        <li>Watch Search Console for impressions/CTR; tighten headlines/meta if CTR lags.</li>
+        <li>Add follow-up internal links once related content ships to keep the network fresh.</li>
+      </ul>
+
+      <h2>Checklist (copy/paste)</h2>
+      <ul>
+        <li>[ ] Slug + brief approved</li>
+        <li>[ ] Draft finished in <code>content-drafts/</code></li>
+        <li>[ ] Astro post created with title tag, meta description, single H1</li>
+        <li>[ ] 2–3 internal links added; CTA added</li>
+        <li>[ ] Added to blog index; sitemap updated</li>
+        <li>[ ] <code>npm run build</code> pass</li>
+        <li>[ ] Deployed + Search Console fetch/index</li>
+      </ul>
+
+      <h2>Where to start</h2>
+      <p>Pick a topic, lock the slug, draft in <code>content-drafts/</code>, then follow this checklist. The fastest way to see value is to publish BOFU-ready guides that link to the <a href="/blog/openclaw-setup-checklist/">setup checklist</a> and <a href="/blog/openclaw-reliable-scheduled-workflows/">reliable workflows</a> posts.</p>
+    </article>
+  </main>
+</BaseLayout>

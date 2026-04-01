@@ -10,16 +10,18 @@
 - Add custom domain in Vercel.
 - Confirm HTTPS active.
 
-## 3) Replace placeholders
+## 3) Replace placeholders (Astro source-of-truth)
 Update these files with your real domain:
-- `index.html`
-  - canonical URL
-  - OG URL
-  - hreflang alternate URLs
-- `robots.txt`
+- `astro.config.mjs`
+  - `site` value
+- `src/layouts/BaseLayout.astro`
+  - canonical URL defaults
+  - OG URL defaults
+  - hreflang alternate URLs (if used)
+- `public/robots.txt`
   - sitemap URL
-- `sitemap.xml`
-  - all `<loc>` and alternate links
+- `public/sitemap.xml`
+  - all `<loc>` entries
 
 ## 4) Validate lead capture
 - Submit free form and paid form once.

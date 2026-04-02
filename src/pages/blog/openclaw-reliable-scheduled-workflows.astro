@@ -133,30 +133,21 @@ const pageDescription = "Learn how to make OpenClaw scheduled workflows dependab
     scheduling layer.
   </p>
 
-  <h2>Infographic: Reliable OpenClaw scheduling at a glance</h2>
-  <p>
-    A simple infographic for this article could visualize the five principles as
-    a linear or circular flow:
-  </p>
-  <ul>
-    <li>
-      <strong>Design</strong> &rarr; <strong>Separate</strong> &rarr; <strong>Observe</strong>
-      &rarr; <strong>Retry</strong> &rarr; <strong>Runbook</strong>
-    </li>
-  </ul>
-  <p>
-    Implementation idea:
-  </p>
-  <ul>
-    <li>
-      Create a horizontal diagram with five labeled steps and a short caption
-      under each.
-    </li>
-    <li>
-      Export it as <code>public/images/openclaw-scheduling-reliability.png</code>
-      with descriptive alt text.
-    </li>
-  </ul>
+  <div class="infobox">
+    <h2>Reliable OpenClaw scheduling at a glance</h2>
+    <p>
+      At a glance, dependable OpenClaw scheduling follows five steps:
+      <strong>Design → Separate → Observe → Retry → Runbook</strong>.
+      When all five are present, cron stops being a source of surprises.
+    </p>
+    <ol>
+      <li><strong>Design</strong> — each job has a clear owner, purpose, and success output.</li>
+      <li><strong>Separate</strong> — reminders stay simple, complex workflows live in dedicated orchestrations.</li>
+      <li><strong>Observe</strong> — failed runs are visible quickly with enough context to debug.</li>
+      <li><strong>Retry</strong> — retries are bounded, backoff is intentional, and escalation is defined.</li>
+      <li><strong>Runbook</strong> — operators know what to do when something breaks.</li>
+    </ol>
+  </div>
 
   <h2>Quick reliability checklist</h2>
   <p>

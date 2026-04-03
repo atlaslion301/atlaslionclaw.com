@@ -1,0 +1,245 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import NavBar from "../../components/NavBar.astro";
+
+const pageTitle = "Running Safe External Actions with OpenClaw: Approvals, Least Privilege, and Audits";
+const pageDescription = "How to let OpenClaw agents perform real-world actions safely using approvals, least privilege, and audits.";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <NavBar />
+  <main class="container">
+    <article class="content-shell">
+      <a href="/blog/" class="back-link">
+        860 Back to blog
+      </a>
+
+      <h1>{pageTitle}</h1>
+
+      <p>
+        When you give an AI the ability to send emails, post to Slack, touch GitHub, or edit
+        production systems, youre no longer just asking a chatbot a question.
+      </p>
+      <p>Youre giving it real power.</p>
+      <p>
+        OpenClaw is designed for this reality. It doesnt just route messages; it orchestrates
+        agents that can run commands, hit APIs, and change things in the real world. Thats
+        powerful  and dangerous  if you dont put rails around it.
+      </p>
+      <p>
+        This article walks through how to run <strong>safe external actions</strong> with
+        OpenClaw using three core ideas:
+      </p>
+      <ul>
+        <li>
+          <strong>Approvals</strong>  humans stay in the loop on risky actions.
+        </li>
+        <li>
+          <strong>Least privilege</strong>  agents only get the capabilities they actually
+          need.
+        </li>
+        <li>
+          <strong>Audits</strong>  you can see who did what, where, and when.
+        </li>
+      </ul>
+      <p>
+        If you want AI agents that can act <em>for</em> you without going rogue <em>on</em> you,
+        this is the mental model.
+      </p>
+
+      <h2>1. What counts as an external action in OpenClaw?</h2>
+      <p>Not all actions are equal.</p>
+      <p>Internal work is cheap and safe:</p>
+      <ul>
+        <li>Reading files in your workspace</li>
+        <li>Drafting content</li>
+        <li>Running local analysis or simulations</li>
+      </ul>
+      <p>
+        External actions are anything that <strong>leaves your machine or changes external
+        state</strong>, for example:
+      </p>
+      <ul>
+        <li>Sending messages (Slack, Discord, email, SMS)</li>
+        <li>Creating or updating tickets (Jira, GitHub Issues)</li>
+        <li>Pushing code (git push, PR updates)</li>
+        <li>Calling third-party APIs with real effects (billing, CRM, marketing tools)</li>
+        <li>Modifying infrastructure (deployment scripts, cloud APIs)</li>
+      </ul>
+      <p>
+        OpenClaw treats these as risky by default. Skills that talk to the outside world live
+        under <code>skills/</code> with clear <code>SKILL.md</code> docs, environment
+        variables, and explicit entrypoints.
+      </p>
+      <p>Your job is to decide:</p>
+      <ul>
+        <li>Which of these actions should be <strong>fully automated</strong>.</li>
+        <li>Which should always go through <strong>approval</strong>.</li>
+        <li>Which should be <strong>blocked</strong> entirely.</li>
+      </ul>
+
+      <h2>2. Approvals: humans stay in the loop</h2>
+      <p>Approvals are your safety valve. They make sure that:</p>
+      <blockquote>
+        <p>
+          The AI can <em>prepare</em> the action, but I approve before it actually fires.
+        </p>
+      </blockquote>
+      <p>In practice, this shows up in a few patterns:</p>
+      <ul>
+        <li>
+          <strong>Dry-run first</strong>  agents generate the exact command, message, or
+          diff they would apply, and you see it before execution.
+        </li>
+        <li>
+          <strong>Explicit approval step</strong>  risky commands are only executed after
+          you approve the full, concrete command or change.
+        </li>
+        <li>
+          <strong>One-shot approvals</strong>  approvals are scoped to a single command or
+          operation, not a blanket do anything forever.
+        </li>
+      </ul>
+      <p>In a healthy OpenClaw setup, approvals are tied to <strong>risk</strong>:</p>
+      <ul>
+        <li>Low risk (read-only queries, local analysis): no approval needed.</li>
+        <li>
+          Medium risk (writing to non-critical docs, non-destructive actions): optional
+          approval, or limited to certain departments.
+        </li>
+        <li>
+          High risk (data deletion, production changes, public messages):
+          <strong>always require approval</strong>.
+        </li>
+      </ul>
+
+      <h2>3. Least privilege: dont give agents the whole world</h2>
+      <p>Least privilege is simple in theory:</p>
+      <blockquote>
+        <p>
+          Each agent and skill should have the <strong>minimum access</strong> required to do
+          its job  no more.
+        </p>
+      </blockquote>
+      <p>In OpenClaw, you get there by tightening a few things:</p>
+      <ul>
+        <li>
+          <strong>Skill boundaries</strong>  each skill does one clear thing and lives in its
+          own directory with a well-defined interface.
+        </li>
+        <li>
+          <strong>Scoped environments</strong>  API keys, service accounts, and scopes are
+          limited to the minimum needed features.
+        </li>
+        <li>
+          <strong>Department access</strong>  not every department can call every skill; you
+          decide which tools Build, Docs, Ops, Growth, and Opportunity get.
+        </li>
+        <li>
+          <strong>No god mode skills</strong>  avoid mega-skills that can run arbitrary
+          shell commands or touch every external service.
+        </li>
+      </ul>
+
+      <h2>4. Audits: know what your agents did</h2>
+      <p>
+        Approvals and least privilege help you avoid accidents. <strong>Audits</strong> help you
+        understand what happened when something does go wrong (or just when you need a paper
+        trail).
+      </p>
+      <p>A good OpenClaw audit story includes:</p>
+      <ul>
+        <li>
+          <strong>Conversation history</strong>  what task led to the action, what context the
+          agent saw, which approvals were granted.
+        </li>
+        <li>
+          <strong>Command logs</strong>  exact commands or API calls (with secrets redacted),
+          targets, and outcomes.
+        </li>
+        <li>
+          <strong>Skill-level logs</strong>  skills log what theyre doing (sending email to
+          X, creating issue in repo Y) and surface clear errors.
+        </li>
+        <li>
+          <strong>Secret hygiene</strong>  logs never contain raw tokens or sensitive
+          payloads.
+        </li>
+      </ul>
+      <p>
+        With good audits, you can answer questions like Why did that email go out? or
+        Who triggered that deployment? without spelunking through a dozen systems.
+      </p>
+
+      <h2>5. Designing safe skills and workflows</h2>
+      <h3>Step 1: Start with read-only</h3>
+      <p>When building a new integration or workflow:</p>
+      <ul>
+        <li>Start with <strong>read-only</strong> operations (list/search, previews).</li>
+        <li>Validate authentication, scopes, error handling, and data shapes.</li>
+      </ul>
+
+      <h3>Step 2: Wrap writes in explicit skills</h3>
+      <p>When you add write capabilities:</p>
+      <ul>
+        <li>
+          Put them in dedicated skills with clear names and SKILL.md docs.
+        </li>
+        <li>
+          Expose safe entrypoints (send email, deploy to staging), not arbitrary generic
+          callers.
+        </li>
+      </ul>
+
+      <h3>Step 3: Wire approvals into the risky paths</h3>
+      <p>For actions with real blast radius:</p>
+      <ul>
+        <li>
+          Require approval for production deploys, destructive operations, and public
+          communications.
+        </li>
+        <li>
+          Make approvals specific by showing the exact command or diff.
+        </li>
+      </ul>
+
+      <h3>Step 4: Log everything that matters</h3>
+      <p>
+        For each external action, log who/what/where/what result, and keep logs somewhere you
+        can actually consult later.
+      </p>
+
+      <h2>6. A mental model for safe OpenClaw ops</h2>
+      <p>
+        When you give OpenClaw access to external systems, run through this checklist:
+      </p>
+      <ul>
+        <li>
+          <strong>Scope</strong>  does this skill do one thing, and does this department only
+          have the tools it needs?
+        </li>
+        <li>
+          <strong>Approvals</strong>  which actions require human approval, and are we
+          approving exact commands?
+        </li>
+        <li>
+          <strong>Defaults</strong>  are we defaulting to read-only and non-destructive
+          behaviors?
+        </li>
+        <li>
+          <strong>Audits</strong>  can we explain what happened if something goes wrong?
+        </li>
+        <li>
+          <strong>Secrets</strong>  are secrets kept in env/config, not leaked into logs or
+          transcripts?
+        </li>
+      </ul>
+      <p>You dont need a perfect security model to get value from OpenClaw. You just need to be deliberate.</p>
+      <p>
+        Give agents power where it helps you. Wrap that power in approvals and least privilege.
+        And always make sure you can see what they did after the fact. Thats how you let
+        OpenClaw act <em>for</em> you, safely.
+      </p>
+    </article>
+  </main>
+</BaseLayout>

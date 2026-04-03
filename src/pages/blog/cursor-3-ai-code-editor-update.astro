@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="Cursor 3: Faster AI Coding, Safer Shipping" description="What the Cursor 3 AI code editor update changes for builders, how to get value fast, and how to keep your OpenClaw projects reliable." >
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+  <main class="container">
+    <article class="content-shell">
+      <p><a href="/blog/">← Back to blog</a></p>
+      <h1>Cursor 3 AI Code Editor: What’s New and How to Ship Faster</h1>
+
+      <p>Cursor’s latest release focuses on speed, larger-context reasoning, and safer code changes. This post breaks down the updates, the impact for small teams, and how to use Cursor 3 with OpenClaw-style guardrails so you ship quickly without breaking things.</p>
+
+      <h2>TL;DR</h2>
+      <ul>
+        <li>Better codebase awareness: larger context + improved retrieval means fewer “hallucinated” imports and more accurate edits across files.</li>
+        <li>Faster edit/apply loop: inline plans, auto-diffs, and single-click apply keep changes reviewable.</li>
+        <li>Stronger safety: tighter sandbox prompts, clearer diff previews, and built-in test hooks reduce risky merges.</li>
+        <li>Works well with OpenClaw: you can keep human-in-the-loop approvals while Cursor accelerates the local coding steps.</li>
+      </ul>
+
+      <h2>What Cursor 3 Changed</h2>
+      <h3>1) Larger, smarter context</h3>
+      <p>Cursor 3 is better at walking long dependency chains and keeping file-local decisions consistent. That reduces “fix one file, break another” regressions and helps when refactoring shared utilities.</p>
+
+      <h3>2) Quicker apply + review cycle</h3>
+      <p>You now see clearer step-by-step plans before code is applied, plus smaller diff chunks. It’s easier to approve, reject, or edit suggestions instead of accepting a giant patch blindly.</p>
+
+      <h3>3) Safer default guardrails</h3>
+      <p>Cursor 3 encourages tests-as-you-go: when a change touches risky areas, it proposes tests or adds TODO markers. Pair this with OpenClaw’s <a href="/blog/human-in-the-loop-ai-approval-gates/">approval gates</a> so every risky change gets an explicit OK.</p>
+
+      <h2>How to work with Cursor 3 day-to-day</h2>
+      <ol>
+        <li><strong>Start each session with a quick map.</strong> Ask Cursor to summarize the files it will touch and the invariants it must keep. Save that summary in your working note.</li>
+        <li><strong>Use small, purposeful prompts.</strong> One change per prompt beats a pile of speculative edits. It keeps diffs reviewable.</li>
+        <li><strong>Keep tests close.</strong> When Cursor proposes a change, ask it for the minimal test that proves the behavior. Run fast checks locally before merging.</li>
+        <li><strong>Integrate with your ops rhythm.</strong> For recurring tasks (docs, config, cron), keep a checklist like our <a href="/blog/openclaw-reliable-scheduled-workflows/">reliable scheduled workflows</a> guide so Cursor follows the same guardrails every time.</li>
+        <li><strong>Capture decisions.</strong> Add a short “why we did this” note to PRs or your changelog so future Cursor sessions respect the same constraints.</li>
+      </ol>
+
+      <h2>Using Cursor 3 with OpenClaw</h2>
+      <ul>
+        <li><strong>Local velocity, controlled rollout.</strong> Do the fast iteration locally in Cursor; push only reviewed diffs into your OpenClaw-managed deploys.</li>
+        <li><strong>Approval-first for prod paths.</strong> Keep OpenClaw channel allowlists and approval flows in place. Cursor speeds the code, OpenClaw keeps the ops safe.</li>
+        <li><strong>Pair with clear runbooks.</strong> If you’re shipping automations, reuse the steps from <a href="/blog/from-topic-approval-to-publish-astro-openclaw-content-pipeline/">our content pipeline</a>—Cursor accelerates the edits, but the checklist keeps quality steady.</li>
+      </ul>
+
+      <h2>Operator checklist for this release</h2>
+      <ul>
+        <li>[ ] Define a 1–2 sentence “do not break” list for your codebase before large refactors.</li>
+        <li>[ ] Require diff review + tests for any change that touches auth, billing, or background jobs.</li>
+        <li>[ ] Add a short retro per session: what Cursor did well, where it drifted, and prompts to avoid.</li>
+        <li>[ ] Keep your <a href="/blog/from-prompting-to-ai-operations/">AI operations</a> hygiene: versioned configs, repeatable scripts, and clear restart boundaries.</li>
+      </ul>
+
+      <h2>Bottom line</h2>
+      <p>Cursor 3 is a solid speed boost, but the win comes from pairing it with disciplined ops: tight prompts, small diffs, human approvals, and quick tests. That’s how you ship faster without waking up to surprise regressions.</p>
+    </article>
+  </main>
+</BaseLayout>

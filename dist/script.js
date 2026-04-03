@@ -70,10 +70,23 @@ function wire(formId, msgId, label, leadType) {
       }
 
       if (leadType === 'paid_waitlist') {
+        const supabase = getClient();
+        const { data: sessData } = await supabase.auth.getSession();
+        const session = sessData?.session;
+
+        if (!session?.access_token || !session?.user?.email) {
+          const next = encodeURIComponent('/#paid');
+          window.location.href = `/login?next=${next}`;
+          return;
+        }
+
         const checkoutResp = await fetch('/api/create-checkout-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
+          body: JSON.stringify({
+            email: String(session.user.email).toLowerCase(),
+            accessToken: session.access_token
+          })
         });
         const checkout = await checkoutResp.json();
         if (!checkoutResp.ok || !checkout.url) {

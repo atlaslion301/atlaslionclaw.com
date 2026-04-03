@@ -1,177 +1,183 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import NavBar from "../../components/NavBar.astro";
 
 const pageTitle = "OpenClaw Cron Jobs: How to Build Reliable Scheduled Agent Workflows";
 const pageDescription = "Learn how to make OpenClaw scheduled workflows dependable with practical cron design, failure detection, retries, and operational guardrails.";
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
-  <a href="/blog/" class="back-link">← Back to blog</a>
+  <NavBar />
+  <main class="container">
+    <article class="content-shell">
+      <a href="/blog/" class="back-link">← Back to blog</a>
 
-  <h1>{pageTitle}</h1>
+      <h1>{pageTitle}</h1>
 
-  <p>
-    Most automations work perfectly in demos. The real challenge starts when those
-    same workflows run daily, unattended, across different channels and
-    environments. If you&apos;re using OpenClaw scheduling seriously, this guide
-    shows how to move from &quot;it usually works&quot; to &quot;it&apos;s dependable.&quot;
-  </p>
+      <p>
+        Most automations work perfectly in demos. The real challenge starts when those
+        same workflows run daily, unattended, across different channels and
+        environments. If you&apos;re using OpenClaw scheduling seriously, this guide
+        shows how to move from &quot;it usually works&quot; to &quot;it&apos;s dependable.&quot;
+      </p>
 
-  <h2>Why scheduled workflows fail in practice</h2>
-  <p>
-    Common reliability failures include:
-  </p>
-  <ul>
-    <li>Cron jobs created without clear success criteria.</li>
-    <li>Weak error visibility that turns failures into silent breakage.</li>
-    <li>Retries without limits or context.</li>
-    <li>Missing ownership when automations misbehave.</li>
-  </ul>
-  <p>
-    Reliability comes from architecture and process, not from scheduling syntax
-    alone.
-  </p>
+      <h2>Why scheduled workflows fail in practice</h2>
+      <p>
+        Common reliability failures include:
+      </p>
+      <ul>
+        <li>Cron jobs created without clear success criteria.</li>
+        <li>Weak error visibility that turns failures into silent breakage.</li>
+        <li>Retries without limits or context.</li>
+        <li>Missing ownership when automations misbehave.</li>
+      </ul>
+      <p>
+        Reliability comes from architecture and process, not from scheduling syntax
+        alone.
+      </p>
 
-  <h2>Reliability framework for OpenClaw scheduled jobs</h2>
-  <p>
-    To make OpenClaw cron jobs dependable, we use a simple framework built on
-    five principles: explicit design, separation of concerns, failure
-    visibility, controlled retries, and a clear runbook.
-  </p>
+      <h2>Reliability framework for OpenClaw scheduled jobs</h2>
+      <p>
+        To make OpenClaw cron jobs dependable, we use a simple framework built on
+        five principles: explicit design, separation of concerns, failure
+        visibility, controlled retries, and a clear runbook.
+      </p>
 
-  <h3>1. Design jobs as explicit units</h3>
-  <p>
-    Every scheduled workflow should define its:
-  </p>
-  <ul>
-    <li><strong>Purpose</strong> &mdash; what problem it solves.</li>
-    <li><strong>Expected output</strong> &mdash; what &quot;success&quot; looks like.</li>
-    <li><strong>Timeout boundary</strong> &mdash; how long it&apos;s allowed to run.</li>
-    <li><strong>Owner</strong> &mdash; who is responsible when it fails.</li>
-  </ul>
-  <p>
-    If these are unclear, reliability collapses quickly. Jobs drift, alerts are
-    ignored, and nobody is sure whether a run was good enough.
-  </p>
+      <h3>1. Design jobs as explicit units</h3>
+      <p>
+        Every scheduled workflow should define its:
+      </p>
+      <ul>
+        <li><strong>Purpose</strong> &mdash; what problem it solves.</li>
+        <li><strong>Expected output</strong> &mdash; what &quot;success&quot; looks like.</li>
+        <li><strong>Timeout boundary</strong> &mdash; how long it&apos;s allowed to run.</li>
+        <li><strong>Owner</strong> &mdash; who is responsible when it fails.</li>
+      </ul>
+      <p>
+        If these are unclear, reliability collapses quickly. Jobs drift, alerts are
+        ignored, and nobody is sure whether a run was good enough.
+      </p>
 
-  <h3>2. Separate reminder jobs from complex workflows</h3>
-  <p>
-    Not every job should do everything. In OpenClaw, we separate:
-  </p>
-  <ul>
-    <li>
-      <strong>Simple reminders</strong> &mdash; quick, exact-time nudges (e.g. &quot;It&apos;s
-      8:30, time for memory compaction&quot;).
-    </li>
-    <li>
-      <strong>Complex workflows</strong> &mdash; multi-step tasks that pull data, call
-      APIs, and write back to your systems.
-    </li>
-  </ul>
-  <p>
-    Practical rule of thumb:
-  </p>
-  <ul>
-    <li>
-      Exact-time reminders &rarr; use dedicated cron jobs that fire once and stay
-      simple.
-    </li>
-    <li>
-      Multi-step periodic checks &rarr; batch them via heartbeats or orchestrated
-      workflows, so you can control complexity and observability in one place.
-    </li>
-  </ul>
+      <h3>2. Separate reminder jobs from complex workflows</h3>
+      <p>
+        Not every job should do everything. In OpenClaw, we separate:
+      </p>
+      <ul>
+        <li>
+          <strong>Simple reminders</strong> &mdash; quick, exact-time nudges (e.g. &quot;It&apos;s
+          8:30, time for memory compaction&quot;).
+        </li>
+        <li>
+          <strong>Complex workflows</strong> &mdash; multi-step tasks that pull data, call
+          APIs, and write back to your systems.
+        </li>
+      </ul>
+      <p>
+        Practical rule of thumb:
+      </p>
+      <ul>
+        <li>
+          Exact-time reminders &rarr; use dedicated cron jobs that fire once and stay
+          simple.
+        </li>
+        <li>
+          Multi-step periodic checks &rarr; batch them via heartbeats or orchestrated
+          workflows, so you can control complexity and observability in one place.
+        </li>
+      </ul>
 
-  <h3>3. Add failure visibility</h3>
-  <p>
-    A failed job is manageable. A silent failure is dangerous. At a minimum,
-    reliable OpenClaw schedules should:
-  </p>
-  <ul>
-    <li>Track run history with timestamps and statuses.</li>
-    <li>Surface failed runs in a channel you actually watch.</li>
-    <li>Include contextual error details in summaries.</li>
-  </ul>
-  <p>
-    When something breaks, you want to see the failure quickly, know which job
-    was affected, and have enough context to debug without digging through raw
-    logs.
-  </p>
+      <h3>3. Add failure visibility</h3>
+      <p>
+        A failed job is manageable. A silent failure is dangerous. At a minimum,
+        reliable OpenClaw schedules should:
+      </p>
+      <ul>
+        <li>Track run history with timestamps and statuses.</li>
+        <li>Surface failed runs in a channel you actually watch.</li>
+        <li>Include contextual error details in summaries.</li>
+      </ul>
+      <p>
+        When something breaks, you want to see the failure quickly, know which job
+        was affected, and have enough context to debug without digging through raw
+        logs.
+      </p>
 
-  <h3>4. Control retry behavior</h3>
-  <p>
-    Unbounded retries can amplify failures instead of fixing them. In OpenClaw,
-    we treat retries as an explicit design choice:
-  </p>
-  <ul>
-    <li>
-      <strong>Limited retries</strong> &mdash; define how many times a job should retry
-      before escalating.
-    </li>
-    <li>
-      <strong>Backoff strategy</strong> &mdash; avoid hammering APIs or services when
-      they&apos;re already unhealthy.
-    </li>
-    <li>
-      <strong>Escalation path</strong> &mdash; decide what happens when retries are
-      exhausted (e.g. alert a channel, open an issue, or pause the job).
-    </li>
-  </ul>
+      <h3>4. Control retry behavior</h3>
+      <p>
+        Unbounded retries can amplify failures instead of fixing them. In OpenClaw,
+        we treat retries as an explicit design choice:
+      </p>
+      <ul>
+        <li>
+          <strong>Limited retries</strong> &mdash; define how many times a job should retry
+          before escalating.
+        </li>
+        <li>
+          <strong>Backoff strategy</strong> &mdash; avoid hammering APIs or services when
+          they&apos;re already unhealthy.
+        </li>
+        <li>
+          <strong>Escalation path</strong> &mdash; decide what happens when retries are
+          exhausted (e.g. alert a channel, open an issue, or pause the job).
+        </li>
+      </ul>
 
-  <h3>5. Maintain an operational runbook</h3>
-  <p>
-    A strong runbook turns incidents into routine operations. For OpenClaw
-    scheduled systems, a good runbook answers:
-  </p>
-  <ul>
-    <li>What to check first when jobs fail.</li>
-    <li>Who owns each class of failure.</li>
-    <li>How to roll back or temporarily disable a job.</li>
-  </ul>
-  <p>
-    This is what separates a &quot;fun automation project&quot; from a production-ready
-    scheduling layer.
-  </p>
+      <h3>5. Maintain an operational runbook</h3>
+      <p>
+        A strong runbook turns incidents into routine operations. For OpenClaw
+        scheduled systems, a good runbook answers:
+      </p>
+      <ul>
+        <li>What to check first when jobs fail.</li>
+        <li>Who owns each class of failure.</li>
+        <li>How to roll back or temporarily disable a job.</li>
+      </ul>
+      <p>
+        This is what separates a &quot;fun automation project&quot; from a production-ready
+        scheduling layer.
+      </p>
 
-  <div class="infobox">
-    <h2>Reliable OpenClaw scheduling at a glance</h2>
-    <p>
-      At a glance, dependable OpenClaw scheduling follows five steps:
-      <strong>Design → Separate → Observe → Retry → Runbook</strong>.
-      When all five are present, cron stops being a source of surprises.
-    </p>
-    <ol>
-      <li><strong>Design</strong> — each job has a clear owner, purpose, and success output.</li>
-      <li><strong>Separate</strong> — reminders stay simple, complex workflows live in dedicated orchestrations.</li>
-      <li><strong>Observe</strong> — failed runs are visible quickly with enough context to debug.</li>
-      <li><strong>Retry</strong> — retries are bounded, backoff is intentional, and escalation is defined.</li>
-      <li><strong>Runbook</strong> — operators know what to do when something breaks.</li>
-    </ol>
-  </div>
+      <div class="infobox">
+        <h2>Reliable OpenClaw scheduling at a glance</h2>
+        <p>
+          At a glance, dependable OpenClaw scheduling follows five steps:
+          <strong>Design → Separate → Observe → Retry → Runbook</strong>.
+          When all five are present, cron stops being a source of surprises.
+        </p>
+        <ol>
+          <li><strong>Design</strong> — each job has a clear owner, purpose, and success output.</li>
+          <li><strong>Separate</strong> — reminders stay simple, complex workflows live in dedicated orchestrations.</li>
+          <li><strong>Observe</strong> — failed runs are visible quickly with enough context to debug.</li>
+          <li><strong>Retry</strong> — retries are bounded, backoff is intentional, and escalation is defined.</li>
+          <li><strong>Runbook</strong> — operators know what to do when something breaks.</li>
+        </ol>
+      </div>
 
-  <h2>Quick reliability checklist</h2>
-  <p>
-    Before you rely on an OpenClaw cron job in production, run through this
-    checklist:
-  </p>
-  <ul>
-    <li>Each job has a clear owner and success output.</li>
-    <li>Failed runs are visible within the same day.</li>
-    <li>Retries are bounded and intentional.</li>
-    <li>Cron vs heartbeat usage is deliberate, not accidental.</li>
-    <li>The escalation path is documented and tested at least once.</li>
-  </ul>
+      <h2>Quick reliability checklist</h2>
+      <p>
+        Before you rely on an OpenClaw cron job in production, run through this
+        checklist:
+      </p>
+      <ul>
+        <li>Each job has a clear owner and success output.</li>
+        <li>Failed runs are visible within the same day.</li>
+        <li>Retries are bounded and intentional.</li>
+        <li>Cron vs heartbeat usage is deliberate, not accidental.</li>
+        <li>The escalation path is documented and tested at least once.</li>
+      </ul>
 
-  <h2>Final takeaway</h2>
-  <p>
-    Reliable automation is not about running more jobs &mdash; it&apos;s about running
-    the right jobs with clear ownership, observability, and guardrails. With
-    those controls in place, OpenClaw scheduling becomes a dependable
-    operational layer, not a source of hidden risk.
-  </p>
-  <p>
-    If you&apos;re ready to move beyond demos and build a production-grade
-    scheduling system, start by applying this framework to your most important
-    workflows and tightening the runbook around them.
-  </p>
+      <h2>Final takeaway</h2>
+      <p>
+        Reliable automation is not about running more jobs &mdash; it&apos;s about running
+        the right jobs with clear ownership, observability, and guardrails. With
+        those controls in place, OpenClaw scheduling becomes a dependable
+        operational layer, not a source of hidden risk.
+      </p>
+      <p>
+        If you&apos;re ready to move beyond demos and build a production-grade
+        scheduling system, start by applying this framework to your most important
+        workflows and tightening the runbook around them.
+      </p>
+    </article>
+  </main>
 </BaseLayout>

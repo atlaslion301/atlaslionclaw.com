@@ -1,81 +1,157 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import NavBar from '../../components/NavBar.astro';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import NavBar from "../../components/NavBar.astro";
+
+const pageTitle = "From Topic Approval to Publish: The Astro + OpenClaw Content Pipeline";
+const pageDescription = "See how OpenClaw takes a topic from Discord approval to a fully deployed Astro blog post, including drafting, wiring, and Vercel deployment.";
 ---
-<BaseLayout title="From Topic Approval to Publish: The Astro + OpenClaw Content Pipeline" description="How we take an approved topic from brief to optimized publish on atlaslionclaw.com using Astro, OpenClaw, and a repeatable QA checklist.">
-  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/blog/', label: 'Blog' }]} />
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <NavBar />
   <main class="container">
     <article class="content-shell">
-      <p><a href="/blog/">← Back to blog</a></p>
-      <h1>From Topic Approval to Publish: The Astro + OpenClaw Content Pipeline</h1>
+      <a href="/blog/" class="back-link">← Back to blog</a>
 
-      <p>This is the operating playbook we use to move from an approved topic to a published, optimized post on atlaslionclaw.com. It keeps drafts, metadata, linking, and deployment tight so nothing slips between ideas and production.</p>
+      <h1>{pageTitle}</h1>
 
-      <h2>1) Topic approval → brief</h2>
+      <p>
+        In a healthy content pipeline, "topic approved" should be the point where
+        the system takes over. This article walks through how OpenClaw and Astro
+        work together so that once a topic is greenlit, the rest of the process
+        &mdash; drafting, wiring, QA, and deployment &mdash; can run with minimal
+        human friction.
+      </p>
+
+      <h2>Why automate the content pipeline?</h2>
+      <p>
+        Manual content workflows break down exactly where things start to get
+        interesting: multiple posts, multiple contributors, and multiple tools.
+        Without a clear pipeline, you end up with drafts trapped in DMs, stale
+        branches, and blog posts that almost shipped.
+      </p>
+      <p>
+        OpenClaw turns this into a repeatable system. Once a topic is approved,
+        the assistant can:
+      </p>
       <ul>
-        <li><strong>Decide the slug early:</strong> pick a concise, intent-aligned slug (e.g., <code>/blog/openclaw-approval-gates-playbook/</code>).</li>
-        <li><strong>Write a 5-line brief:</strong> audience, promise, primary keyword/intent, POV, and 3 key takeaways.</li>
-        <li><strong>Assign funnel stage:</strong> TOFU/MOFU/BOFU to guide CTAs and internal links.</li>
+        <li>Draft the article with the right structure and SEO framing.</li>
+        <li>Promote the draft into an Astro page with a clean layout.</li>
+        <li>Wire the post into the blog index and sitemap.</li>
+        <li>Run the build, commit, and push to trigger Vercel deployment.</li>
       </ul>
 
-      <h2>2) Draft in markdown</h2>
+      <h2>Step 1: Topic approval in chat</h2>
+      <p>
+        Everything starts where you already work: chat. A topic might be proposed
+        in Discord as a simple message. Once you reply with something like
+        &quot;topic 2 is good&quot; or &quot;let&apos;s ship this one,&quot; that becomes the
+        approval signal for the assistant.
+      </p>
+      <p>
+        The key is that the approval is unambiguous. For example:
+      </p>
       <ul>
-        <li>Draft in <code>/content-drafts/*.md</code> (or long-form in <code>/home/atlaslion/.openclaw/workspace/blog-drafts.md</code>).</li>
-        <li>Structure for skim: H2/H3 outline, bullets, short paragraphs, and 1–2 checklists.</li>
-        <li>Identify 2–3 internal links you will add (anchor text that matches the value). Good targets: <a href="/blog/openclaw-reliable-scheduled-workflows/">reliable scheduled workflows</a>, <a href="/blog/cron-heartbeats-two-layer-automation-pattern/">cron + heartbeats pattern</a>, <a href="/blog/openclaw-setup-checklist/">setup checklist</a>.</li>
+        <li>The topic has a short working title.</li>
+        <li>You confirm it&apos;s in scope for the blog.</li>
+        <li>You signal that the assistant is allowed to move forward end-to-end.</li>
       </ul>
 
-      <h2>3) Build the Astro post</h2>
+      <h2>Step 2: Drafting the article</h2>
+      <p>
+        Once a topic is approved, the assistant drafts the article in a
+        workspace-friendly format. In this setup, drafts live under
+        <code>content-drafts/</code> as Markdown files. Each draft captures:
+      </p>
       <ul>
-        <li>Copy a similar post from <code>src/pages/blog/</code> and rename it to your slug (e.g., <code>from-topic-approval-to-publish-astro-openclaw-content-pipeline.astro</code>).</li>
-        <li>Set <code>&lt;BaseLayout title=... description=...&gt;</code> with a unique title tag (50–60 chars) and meta description (120–155 chars).</li>
-        <li>Use a single H1, then H2/H3 for the outline. Keep the back-link to the blog index.</li>
-        <li>Add a short intro paragraph before the first H2 to frame the value.</li>
+        <li>The proposed slug and title.</li>
+        <li>A clear outline of sections and subsections.</li>
+        <li>Key phrases and internal links based on the growth packet.</li>
+        <li>Any visual ideas, like diagrams or infoboxes, as textual notes.</li>
       </ul>
+      <p>
+        This keeps early iterations lightweight while still living alongside the
+        codebase instead of being lost in a chat thread.
+      </p>
 
-      <h2>4) Optimize for SEO + conversion</h2>
+      <h2>Step 3: Promoting to an Astro blog post</h2>
+      <p>
+        When the draft is ready, it&apos;s promoted into an Astro page under
+        <code>src/pages/blog/&lt;slug&gt;.astro</code>. The post uses the same layout
+        as other articles on the site:
+      </p>
       <ul>
-        <li><strong>Internal links:</strong> Add 2–3 contextual links out; add 1–2 inbound links from related posts where relevant.</li>
-        <li><strong>CTA placement:</strong> End with a CTA to a BOFU resource (e.g., <a href="/blog/openclaw-setup-checklist/">OpenClaw Setup Checklist</a> or <a href="/blog/openclaw-security-hardening-2026/">Security Hardening</a>).</li>
-        <li><strong>Readability:</strong> Keep paragraphs short; prefer bullets and checklists.</li>
-        <li><strong>Images (optional):</strong> Place assets under <code>/public/</code> and reference with absolute paths; always include descriptive alt text.</li>
+        <li><code>BaseLayout</code> for global styles and metadata.</li>
+        <li><code>NavBar</code> for navigation consistency.</li>
+        <li><code>&lt;main class="container"&gt;</code> to center the content.</li>
+        <li><code>&lt;article class="content-shell"&gt;</code> for the bordered article body.</li>
       </ul>
+      <p>
+        Within that shell, the article uses standard HTML headings, paragraphs,
+        lists, and callout boxes, so it looks and feels like the rest of the
+        blog.
+      </p>
 
-      <h2>5) QA before publishing</h2>
+      <h2>Step 4: Wiring into the blog index and sitemap</h2>
+      <p>
+        A blog post isn&apos;t really live until it&apos;s discoverable. The assistant
+        updates two key places:
+      </p>
       <ul>
-        <li>Run <code>npm run build</code> to ensure the Astro build passes.</li>
-        <li>Check internal links for 200s; confirm the back-link works.</li>
-        <li>If the post references forms/CTAs, sanity-check the free PDF or checkout flows after deploy.</li>
+        <li>
+          <strong>Blog index</strong> &mdash; adds a card in
+          <code>src/pages/blog/index.astro</code> pointing to the new post, with a short
+          description.
+        </li>
+        <li>
+          <strong>Sitemap</strong> &mdash; adds a <code>&lt;url&gt;</code> entry in
+          <code>public/sitemap.xml</code> so search engines can find the route.
+        </li>
       </ul>
+      <p>
+        These updates follow the conventions in
+        <code>article-publishing-guide.md</code> and the
+        <code>growth-publish-packet.md</code>, so each new article strengthens the
+        internal linking mesh instead of becoming an orphan page.
+      </p>
 
-      <h2>6) Publish</h2>
+      <h2>Step 5: Build, commit, and deploy</h2>
+      <p>
+        With the content wired up, the assistant runs the Astro build and ships
+        the changes:
+      </p>
       <ul>
-        <li>Add the post card to <code>src/pages/blog/index.astro</code> (title + 1–2 line summary).</li>
-        <li>Update <code>public/sitemap.xml</code> with the new URL: <code>https://atlaslionclaw.com/blog/&lt;slug&gt;/</code>.</li>
-        <li>Deploy via Vercel. After deploy, verify live URLs: home, <code>/blog/</code>, and the new post.</li>
-        <li>In Google Search Console: resubmit the sitemap and request indexing for the new post.</li>
+        <li><code>npm run build</code> to validate that the site compiles.</li>
+        <li><code>git add</code> for the new post, index, and sitemap updates.</li>
+        <li><code>git commit</code> with a descriptive message.</li>
+        <li><code>git push origin main</code> to trigger the Vercel deployment.</li>
       </ul>
+      <p>
+        Vercel picks up the push, builds the site, and publishes the updated
+        blog. Once the deployment is live, the assistant can also follow your
+        geo/SEO checklists and indexing workflows.
+      </p>
 
-      <h2>7) Measure and iterate</h2>
-      <ul>
-        <li>Track lead capture (free vs paid) by checking Supabase <code>public.leads</code> and Stripe checkout completions.</li>
-        <li>Watch Search Console for impressions/CTR; tighten headlines/meta if CTR lags.</li>
-        <li>Add follow-up internal links once related content ships to keep the network fresh.</li>
-      </ul>
+      <h2>Step 6: Generalizing the pipeline for future topics</h2>
+      <p>
+        The real power of this setup is that the same pipeline can be reused
+        for future topics. Once the pattern is established, &quot;approve this
+        topic&quot; becomes the only input you need for the assistant to run the
+        full create &rarr; optimize &rarr; publish loop.
+      </p>
+      <p>
+        Over time, you can add more structure around this process, like topic
+        templates, per-department STATE files, and automated QA checks that run
+        as part of the build. But the core loop stays the same: approve a topic,
+        let the system carry it to production, and iterate from there.
+      </p>
 
-      <h2>Checklist (copy/paste)</h2>
-      <ul>
-        <li>[ ] Slug + brief approved</li>
-        <li>[ ] Draft finished in <code>content-drafts/</code></li>
-        <li>[ ] Astro post created with title tag, meta description, single H1</li>
-        <li>[ ] 2–3 internal links added; CTA added</li>
-        <li>[ ] Added to blog index; sitemap updated</li>
-        <li>[ ] <code>npm run build</code> pass</li>
-        <li>[ ] Deployed + Search Console fetch/index</li>
-      </ul>
-
-      <h2>Where to start</h2>
-      <p>Pick a topic, lock the slug, draft in <code>content-drafts/</code>, then follow this checklist. The fastest way to see value is to publish BOFU-ready guides that link to the <a href="/blog/openclaw-setup-checklist/">setup checklist</a> and <a href="/blog/openclaw-reliable-scheduled-workflows/">reliable workflows</a> posts.</p>
+      <h2>Final thoughts</h2>
+      <p>
+        If you&apos;re tired of half-finished drafts and posts that almost shipped,
+        connect your chat approvals directly to your Astro site. With OpenClaw in
+        the loop, &quot;topic approved&quot; can mean &quot;this will be a live article soon,&quot;
+        not &quot;someone should remember to write that.&quot;
+      </p>
     </article>
   </main>
 </BaseLayout>

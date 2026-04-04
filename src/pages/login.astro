@@ -41,14 +41,18 @@ import NavBar from '../components/NavBar.astro';
     const SUPABASE_URL = 'https://kanderhmsvibtduhpsir.supabase.co';
     const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthbmRlcmhtc3ZpYnRkdWhwc2lyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTQ1NDQsImV4cCI6MjA4ODY3MDU0NH0.wlJq3rNNwyuqCiTbUd2SKk-sDgFFl-wPmfI2m4hLQIk';
 
+    const redirectTo = `${window.location.origin}/login/success/`;
+    const googleAuthUrl = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectTo)}`;
+
     if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
       msg.textContent = 'Login is not configured yet. Missing Supabase env vars.';
+    } else if (!window.supabase) {
+      msg.textContent = 'Login library failed to load. Please retry or use the magic link.';
     } else {
       const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         msg.textContent = 'Sending magic link...';
-        const redirectTo = `${window.location.origin}/login/success/`;
         const { error } = await client.auth.signInWithOtp({
           email: email.value.trim(),
           options: { emailRedirectTo: redirectTo }
@@ -59,7 +63,6 @@ import NavBar from '../components/NavBar.astro';
       googleBtn?.addEventListener('click', async () => {
         msg.textContent = 'Redirecting to Google...';
         googleBtn.disabled = true;
-        const redirectTo = `${window.location.origin}/login/success/`;
         const { error, data } = await client.auth.signInWithOAuth({
           provider: 'google',
           options: { redirectTo }
@@ -67,9 +70,11 @@ import NavBar from '../components/NavBar.astro';
         if (error) {
           msg.textContent = `Error: ${error.message}`;
           googleBtn.disabled = false;
+          // fallback
+          window.location.href = googleAuthUrl;
         } else if (!data?.url) {
-          msg.textContent = 'Unexpected: no redirect URL returned.';
-          googleBtn.disabled = false;
+          msg.textContent = 'Unexpected: no redirect URL returned. Opening fallback...';
+          window.location.href = googleAuthUrl;
         } else {
           window.location.href = data.url;
         }

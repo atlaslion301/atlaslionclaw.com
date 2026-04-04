@@ -31,7 +31,6 @@ import NavBar from '../components/NavBar.astro';
     </section>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script is:inline>
     const msg = document.getElementById('loginMsg');
     const form = document.getElementById('loginForm');
@@ -44,40 +43,57 @@ import NavBar from '../components/NavBar.astro';
     const redirectTo = `${window.location.origin}/login/success/`;
     const googleAuthUrl = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectTo)}`;
 
+    async function getSupabaseClient() {
+      if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+        throw new Error('Missing Supabase env vars');
+      }
+      if (window.supabase?.createClient) {
+        return window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+      }
+      try {
+        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+        return createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+      } catch (err) {
+        console.error('Supabase load failed', err);
+        throw new Error('Login library failed to load. Please retry or use the magic link.');
+      }
+    }
+
     if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
       msg.textContent = 'Login is not configured yet. Missing Supabase env vars.';
-    } else if (!window.supabase) {
-      msg.textContent = 'Login library failed to load. Please retry or use the magic link.';
     } else {
-      const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        msg.textContent = 'Sending magic link...';
-        const { error } = await client.auth.signInWithOtp({
-          email: email.value.trim(),
-          options: { emailRedirectTo: redirectTo }
+      getSupabaseClient().then((client) => {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          msg.textContent = 'Sending magic link...';
+          const { error } = await client.auth.signInWithOtp({
+            email: email.value.trim(),
+            options: { emailRedirectTo: redirectTo }
+          });
+          msg.textContent = error ? `Error: ${error.message}` : 'Magic link sent. Open your email, then return to complete checkout.';
         });
-        msg.textContent = error ? `Error: ${error.message}` : 'Magic link sent. Open your email, then return to complete checkout.';
-      });
 
-      googleBtn?.addEventListener('click', async () => {
-        msg.textContent = 'Redirecting to Google...';
-        googleBtn.disabled = true;
-        const { error, data } = await client.auth.signInWithOAuth({
-          provider: 'google',
-          options: { redirectTo }
+        googleBtn?.addEventListener('click', async () => {
+          msg.textContent = 'Redirecting to Google...';
+          googleBtn.disabled = true;
+          const { error, data } = await client.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo }
+          });
+          if (error) {
+            msg.textContent = `Error: ${error.message}`;
+            googleBtn.disabled = false;
+            // fallback
+            window.location.href = googleAuthUrl;
+          } else if (!data?.url) {
+            msg.textContent = 'Unexpected: no redirect URL returned. Opening fallback...';
+            window.location.href = googleAuthUrl;
+          } else {
+            window.location.href = data.url;
+          }
         });
-        if (error) {
-          msg.textContent = `Error: ${error.message}`;
-          googleBtn.disabled = false;
-          // fallback
-          window.location.href = googleAuthUrl;
-        } else if (!data?.url) {
-          msg.textContent = 'Unexpected: no redirect URL returned. Opening fallback...';
-          window.location.href = googleAuthUrl;
-        } else {
-          window.location.href = data.url;
-        }
+      }).catch((err) => {
+        msg.textContent = err?.message || 'Login library failed to load. Please retry or use the magic link.';
       });
     }
   </script>

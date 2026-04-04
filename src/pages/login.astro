@@ -8,13 +8,17 @@ import NavBar from '../components/NavBar.astro';
   <main class="container">
     <section class="content-shell" style="max-width: 640px; margin: 0 auto;">
       <h1>Login to Continue</h1>
-      <p class="lead">Use your email to receive a magic login link. After login, return and complete payment to unlock markdown downloads.</p>
+      <p class="lead">Use your email to receive a magic login link or sign in with Google. After login, return and complete payment to unlock markdown downloads.</p>
 
       <form id="loginForm" class="form">
         <label>Email</label>
         <input id="email" type="email" required placeholder="you@example.com" />
         <button type="submit" class="btn">Send magic link</button>
       </form>
+
+      <div class="form" style="margin-top: 16px;">
+        <button id="googleBtn" type="button" class="btn btn-ghost">Continue with Google</button>
+      </div>
       <p class="note" id="loginMsg"></p>
     </section>
   </main>
@@ -24,6 +28,7 @@ import NavBar from '../components/NavBar.astro';
     const msg = document.getElementById('loginMsg');
     const form = document.getElementById('loginForm');
     const email = document.getElementById('email');
+    const googleBtn = document.getElementById('googleBtn');
 
     const SUPABASE_URL = 'https://kanderhmsvibtduhpsir.supabase.co';
     const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthbmRlcmhtc3ZpYnRkdWhwc2lyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTQ1NDQsImV4cCI6MjA4ODY3MDU0NH0.wlJq3rNNwyuqCiTbUd2SKk-sDgFFl-wPmfI2m4hLQIk';
@@ -41,6 +46,25 @@ import NavBar from '../components/NavBar.astro';
           options: { emailRedirectTo: redirectTo }
         });
         msg.textContent = error ? `Error: ${error.message}` : 'Magic link sent. Open your email, then return to complete checkout.';
+      });
+
+      googleBtn?.addEventListener('click', async () => {
+        msg.textContent = 'Redirecting to Google...';
+        googleBtn.disabled = true;
+        const redirectTo = `${window.location.origin}/`;
+        const { error, data } = await client.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo }
+        });
+        if (error) {
+          msg.textContent = `Error: ${error.message}`;
+          googleBtn.disabled = false;
+        } else if (!data?.url) {
+          msg.textContent = 'Unexpected: no redirect URL returned.';
+          googleBtn.disabled = false;
+        } else {
+          window.location.href = data.url;
+        }
       });
     }
   </script>

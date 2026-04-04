@@ -17,7 +17,15 @@ import NavBar from '../components/NavBar.astro';
       </form>
 
       <div class="form" style="margin-top: 16px;">
-        <button id="googleBtn" type="button" class="btn btn-ghost">Continue with Google</button>
+        <button id="googleBtn" type="button" class="btn btn-ghost" style="display: inline-flex; align-items: center; gap: 8px;">
+          <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.64 9.2045C17.64 8.56682 17.5827 7.95295 17.4764 7.36386H9V10.8441H13.8436C13.6359 11.9686 13.0009 12.9236 12.0459 13.5623V15.8195H14.9564C16.6582 14.2523 17.64 11.9455 17.64 9.2045Z" fill="#4285F4"/>
+            <path d="M9 18C11.43 18 13.4673 17.1945 14.9564 15.8195L12.0459 13.5623C11.2391 14.1014 10.2068 14.4205 9 14.4205C6.65591 14.4205 4.67182 12.8377 3.96409 10.71H0.957275V13.0418C2.43818 15.9832 5.48182 18 9 18Z" fill="#34A853"/>
+            <path d="M3.96408 10.71C3.78408 10.171 3.68182 9.59364 3.68182 9C3.68182 8.40636 3.78408 7.82909 3.96408 7.29V4.95818H0.957273C0.347727 6.17364 0 7.54773 0 9C0 10.4523 0.347727 11.8264 0.957273 13.0418L3.96408 10.71Z" fill="#FBBC05"/>
+            <path d="M9 3.57955C10.3186 3.57955 11.5073 4.03182 12.4486 4.935L15.0218 2.36182C13.4632 0.905455 11.426 0 9 0C5.48182 0 2.43818 2.01682 0.957275 4.95818L3.96409 7.29C4.67182 5.16273 6.65591 3.57955 9 3.57955Z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </button>
       </div>
       <p class="note" id="loginMsg"></p>
     </section>

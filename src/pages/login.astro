@@ -48,7 +48,7 @@ import NavBar from '../components/NavBar.astro';
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         msg.textContent = 'Sending magic link...';
-        const redirectTo = `${window.location.origin}/`;
+        const redirectTo = `${window.location.origin}/login/success/`;
         const { error } = await client.auth.signInWithOtp({
           email: email.value.trim(),
           options: { emailRedirectTo: redirectTo }
@@ -59,7 +59,7 @@ import NavBar from '../components/NavBar.astro';
       googleBtn?.addEventListener('click', async () => {
         msg.textContent = 'Redirecting to Google...';
         googleBtn.disabled = true;
-        const redirectTo = `${window.location.origin}/`;
+        const redirectTo = `${window.location.origin}/login/success/`;
         const { error, data } = await client.auth.signInWithOAuth({
           provider: 'google',
           options: { redirectTo }

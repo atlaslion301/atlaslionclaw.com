@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.astro';
+---
+<BaseLayout title="Login Success" description="You are signed in. Continue to checkout to unlock downloads.">
+  <NavBar links={[{ href: '/', label: 'Home' }, { href: '/ai-skills/', label: 'AI Skills' }, { href: '/use-cases/', label: 'Use Cases' }]} />
+
+  <main class="container">
+    <section class="content-shell" style="max-width: 640px; margin: 0 auto;">
+      <h1>Logged in</h1>
+      <p class="lead">You’re signed in. Return to checkout to unlock your downloads.</p>
+      <div class="cta-row" style="margin-top: 12px;">
+        <a class="btn" href="/">Back to home</a>
+        <a class="btn btn-ghost" href="/#paid">Go to paid playbook</a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

@@ -18,6 +18,10 @@ npm run preview
 ## Supabase
 - Landing forms insert into `public.leads`.
 - SQL schema/policy file: `supabase.sql`
+- Auth (magic link + Google OAuth): enable Google provider and add redirect URLs:
+  - https://atlaslionclaw.com/
+  - https://www.atlaslionclaw.com/ (if applicable)
+  - http://localhost:4321/
 
 ## Free PDF email flow
 - Endpoints:
